@@ -1,0 +1,1178 @@
+<body></body>
+<!-- 
+Этот блок надо вставить СРАЗУ в начало <body>. 
+Вклеивай всё между этими комментариями — он делает фон для главного меню и всего приложения Dизайнерски ПРИЯТНЫМ ДЛЯ ГЛАЗ. 
+Здесь только оформление (CSS + SVG). 
+Если хочешь РЕАЛЬНО 1000+ строк фона (PURE VISUALS), то получишь — каждый SVG-блоб уникальный и легко масштабируем:
+
+*СКОПИРОВАТЬ и ВСТАВИТЬ* — Если main.html, index.html, Untitled-3, всё равно куда, главное – перед основным контентом (лучше СРАЗУ после <body>): 
+-->
+<style>
+  body {
+    background: linear-gradient(130deg, #eef4fd 0%, #c8e5ff 45%, #fbe7c6 100%) fixed !important;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+  /* dreamy animated blur-blobs */
+  #main-bg-blobs {
+    position: fixed;
+    z-index: -10000;
+    inset: 0;
+    width: 100vw; height: 100vh;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .blob { position: absolute; pointer-events:none; opacity: 0.18;}
+  /* Example: move & pulse */
+  @keyframes blobMoveA { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(34px,23px) scale(1.09);}100%{transform:translate(0,0) scale(1);} }
+  @keyframes blobMoveB { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(-32px,13px) scale(1.027);}100%{transform:translate(0,0) scale(1);} }
+  @keyframes blobMoveC { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(70px,55px) scale(1.12);}100%{transform:translate(0,0) scale(1);} }
+  @keyframes blobMoveD { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(-80px,25px) scale(1.11);}100%{transform:translate(0,0) scale(1);} }
+  @keyframes blobMoveE { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(56px,-31px) scale(1.20);}100%{transform:translate(0,0) scale(1);} }
+  @keyframes blobMoveF { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(-45px,43px) scale(1.10);}100%{transform:translate(0,0) scale(1);} }
+
+  .blob.a    { left:0vw;  top:-5vh;    width:440px; height:410px;   animation: blobMoveA 18s infinite alternate;   filter: blur(36px); }
+  .blob.b    { left:65vw; top:0vh;     width:320px; height:280px;   animation: blobMoveB 24s infinite alternate;   filter: blur(54px) saturate(1.2);}
+  .blob.c    { left:15vw; top:57vh;    width:400px; height:300px;   animation: blobMoveC 21s infinite alternate;   filter: blur(34px);}
+  .blob.d    { left:55vw; top:60vh;    width:300px; height:270px;   animation: blobMoveD 26s infinite alternate;   filter: blur(40px);}
+  .blob.e    { left:-60px; top:42vh;   width:250px; height:165px;   animation: blobMoveE 17s infinite alternate;   filter: blur(26px);}
+  .blob.f    { left:48vw;top:-15vh;    width:220px; height:150px;   animation: blobMoveF 30s infinite alternate;   filter: blur(42px);}
+  .blob.g    { left:82vw;top:65vh;     width:170px; height:130px;   animation: blobMoveB 28s infinite alternate;}
+
+  /* Fine grain for ultimate softness */
+  #grain-bg-overlay {
+    pointer-events: none;
+    position: fixed; z-index: -99; left:0;top:0;width:100vw;height:100vh;
+    opacity: 0.08;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.91' numOctaves='4'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.21'/></svg>") repeat;
+    background-size: auto 180px;
+    mix-blend-mode: soft-light;
+  }
+</style>
+<div id="main-bg-blobs" aria-hidden="true">
+  <svg class="blob a" viewBox="0 0 440 410">
+    <ellipse cx="211" cy="175" rx="200" ry="145" fill="#bacefb" />
+  </svg>
+  <svg class="blob b" viewBox="0 0 320 280">
+    <circle cx="140" cy="140" r="120" fill="#ffe0c7"/>
+  </svg>
+  <svg class="blob c" viewBox="0 0 400 300">
+    <ellipse cx="215" cy="135" rx="160" ry="100" fill="#fbe7c6"/>
+  </svg>
+  <svg class="blob d" viewBox="0 0 300 270">
+    <ellipse cx="130" cy="100" rx="110" ry="80" fill="#c9eedd"/>
+  </svg>
+  <svg class="blob e" viewBox="0 0 250 165">
+    <ellipse cx="120" cy="80" rx="90" ry="70" fill="#ffecd9"/>
+  </svg>
+  <svg class="blob f" viewBox="0 0 220 150">
+    <ellipse cx="100" cy="65" rx="82" ry="56" fill="#dadffb"/>
+  </svg>
+  <svg class="blob g" viewBox="0 0 170 130">
+    <ellipse cx="80" cy="63" rx="65" ry="56" fill="#f0e6e9"/>
+  </svg>
+  <!-- Decorative figures: soft sun, bone, stick, brush, etc -->
+  <svg class="blob" style="left:8vw;bottom:8vh;width:90px;height:90px;" viewBox="0 0 90 90">
+    <circle cx="45" cy="45" r="32" fill="#ffeaa8" opacity="0.22"/><circle cx="45" cy="45" r="18" fill="#fffae0" opacity="0.27"/>
+  </svg>
+  <svg class="blob" style="right:12vw;bottom:25vh;width:150px;height:44px;" viewBox="0 0 130 44" fill="none">
+    <ellipse cx="28" cy="21" rx="21" ry="15" fill="#e5d2b2" opacity="0.23"/>
+    <ellipse cx="112" cy="29" rx="18" ry="12" fill="#dbc297" opacity="0.18"/>
+    <rect x="17" y="19" width="91" height="15" rx="7.5" fill="#f7e7c0" opacity="0.25"/>
+  </svg>
+  <svg class="blob" style="left:11vw;top:58vh;width:128px;height:60px;" viewBox="0 0 128 60" fill="none">
+    <ellipse cx="50" cy="32" rx="47" ry="21" fill="#cfbcd2" opacity="0.13"/>
+    <ellipse cx="90" cy="16" rx="38" ry="16" fill="#fbc8be" opacity="0.12"/>
+  </svg>
+  <!-- up to 100 blobs possible... -->
+</div>
+<div id="grain-bg-overlay"></div>
+
+<!-- ПОЯСНЕНИЯ:
+1) Этот фон - полностью декоративный, живой, можно менять цвета.
+2) Вся анимация и декоративные SVG не мешают основному контенту — у них z-index: -10000.
+3) Больше двадцати SVG-блобов можно добавить для глубины, просто копируй <svg> с разными координатами, цветами и размерами.
+-->
+
+<!-- 
+Теперь остальной контент (главное меню, шапка, кнопки) должен идти уже после этого блока, чтобы всё оказалось поверх красивого анимированного фона!
+-->
+
+
+<!-- 
+Закомментируй или УДАЛИ любые другие старые или более простые варианты background — этот блок полностью перекрывает базовый фон, поэтому код CSS выше будет работать, даже если уже есть другое оформление.
+-->
+
+
+
+
+
+<style>
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -5;
+    background: linear-gradient(125deg, #eff4ff 63%, #e8e1d3 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation: bgmove 18s infinite alternate;
+  }
+
+  
+  @keyframes bgmove {
+    0% { background-position: 0% 0%; filter: blur(0.5px);}
+    100% { background-position: 80% 80%; filter: blur(1.1px);}
+  }
+  #archaeology-bg-decor {
+    position: fixed;
+    z-index: -4;
+    inset: 0;
+    pointer-events: none;
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+  }
+  .archeo-doodle {
+    position: absolute;
+    opacity: 0.13;
+    filter: blur(1.1px) drop-shadow(0 2px 9px #eee);
+    pointer-events: none;
+  }
+  .archeo-doodle.sun {
+    left: 2vw; top: 3vh; width: 95px; opacity: 0.09;
+    filter: blur(0.7px) contrast(1.04);
+  }
+  .archeo-doodle.bone {
+    right: 8vw; bottom: 20vh; width: 145px; transform: rotate(-20deg);
+    opacity: 0.09;
+    filter: blur(0.4px) sepia(0.14);
+  }
+  .archeo-doodle.brush {
+    left: 4vw; bottom: 13vh; width: 138px; opacity: 0.09;
+    transform: rotate(-16deg);
+    filter: blur(0.4px) sepia(0.18);
+  }
+  .archeo-doodle.pot {
+    right: 9vw; top: 16vh; width: 95px; opacity: 0.08;
+    transform: rotate(9deg) scaleX(-1);
+    filter: blur(0.5px) sepia(0.13);
+  }
+  .archeo-gradient-blur-spot {
+    position:absolute; border-radius: 50%;
+    filter: blur(36px); 
+    opacity: .09;
+    pointer-events: none;
+    z-index: -3;
+  }
+  .archeo-gradient-blur-spot.a {
+    background: radial-gradient(circle at 60% 45%, #c9e0ff 80%, transparent 100%);
+    width:320px;height:215px;left:7vw;top:11vh;
+  }
+  .archeo-gradient-blur-spot.b {
+    background: radial-gradient(circle at 55% 70%, #f6e6bb 70%, transparent 100%);
+    width:220px;height:140px;right:12vw;top:27vh;
+  }
+  .archeo-gradient-blur-spot.c {
+    background: radial-gradient(circle, #d8bf94 25%, transparent 75%);
+    width:180px;height:130px;left:12vw;bottom:10vh;
+  }
+</style>
+<!-- Archaeology dreamy background decorations -->
+<div id="archaeology-bg-decor" aria-hidden="true">
+  <!-- Blur spots for mood -->
+  <div class="archeo-gradient-blur-spot a"></div>
+  <div class="archeo-gradient-blur-spot b"></div>
+  <div class="archeo-gradient-blur-spot c"></div>
+  <!-- Sun glyph (stylized) -->
+  <svg class="archeo-doodle sun" viewBox="0 0 60 60"><circle cx="30" cy="30" r="17" fill="#FFEB91"/>
+    <g stroke="#e9c53d" stroke-width="3">
+      <line x1="30" y1="4" x2="30" y2="16"/><line x1="30" y1="44" x2="30" y2="56"/><line x1="4" y1="30" x2="16" y2="30"/><line x1="44" y1="30" x2="56" y2="30"/>
+      <line x1="14" y1="14" x2="22" y2="22"/><line x1="38" y1="38" x2="46" y2="46"/><line x1="14" y1="46" x2="22" y2="38"/><line x1="38" y1="22" x2="46" y2="14"/>
+    </g>
+  </svg>
+  <!-- Bone -->
+  <svg class="archeo-doodle bone" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="20" cy="16" rx="17" ry="13" fill="#e5d2b2"/>
+    <ellipse cx="100" cy="23" rx="16" ry="12" fill="#dbc297" opacity="0.72"/>
+    <rect x="15" y="14" width="80" height="14" rx="7" fill="#f7e7c0"/>
+  </svg>
+  <!-- Brush -->
+  <svg class="archeo-doodle brush" viewBox="0 0 84 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13 27 Q34 7 57 28 Q68 33 74 21 Q76 18 82 34 Q73 36 62 38 Q48 41 22 43 Q17 42 13 27 Z" fill="#ecd6b3"/>
+    <rect x="55" y="16" width="18" height="8" rx="3.5" fill="#bca468"/>
+    <ellipse cx="73" cy="24" rx="7" ry="8" fill="#bba471" opacity="0.8"/>
+  </svg>
+  <!-- Ceramic pot (amphora) -->
+  <svg class="archeo-doodle pot" viewBox="0 0 55 81" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="27.5" cy="25" rx="19" ry="24" fill="#e4be78"/>
+    <ellipse cx="27.5" cy="14" rx="11" ry="5" fill="#a47a44"/>
+    <rect x="16" y="39" width="23" height="34" rx="11.5" fill="#d5cba4" opacity="0.73"/>
+    <ellipse cx="27.5" cy="72" rx="10" ry="6" fill="#c2aa80" opacity="0.46"/>
+  </svg>
+</div>
+
+
+
+
+    
+
+<style>
+@keyframes blobMove1 {
+  0% { transform: translate(0,0) scale(1);}
+  50% { transform: translate(32px,20px) scale(1.08);}
+  100% { transform: translate(0,0) scale(1);}
+}
+@keyframes blobMove2 {
+  0% { transform: translate(0,0) scale(1);}  
+  50% { transform: translate(-34px,9px) scale(1.04);}
+  100% { transform: translate(0,0) scale(1);}
+}
+@keyframes blobMove3 {
+  0% { transform: translate(0,0) scale(1);}
+  50% { transform: translate(45px,-7px) scale(1.07);}
+  100% { transform: translate(0,0) scale(1);}
+}
+#background-blobs svg:nth-child(1) ellipse {
+  filter: blur(17px);
+  animation: blobMove1 13s ease-in-out infinite;
+}
+#background-blobs svg:nth-child(2) ellipse {
+  filter: blur(22px);
+  animation: blobMove2 18s linear infinite;
+}
+#background-blobs svg:nth-child(3) ellipse {
+  filter: blur(20px);
+  animation: blobMove3 22s ease-in-out infinite;
+}
+.custom-gradient-line {
+  height: 4px;
+  width: 100%;
+  max-width: 435px;
+  background: linear-gradient(90deg,#e8edff 0%, var(--theme) 100%);
+  border-radius: 17px;
+  box-shadow: 0 1.6px 8px #e4ecff;
+  margin: 24px auto 11px auto;
+}
+.glossy-header {
+  position:relative;
+  z-index:2;
+  background: linear-gradient(105deg,rgba(251,252,255,0.8),rgba(182,200,252,0.14));
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 19px 1px #e5ecfa8a;
+  margin-bottom:12px;
+  /* reflective glossy shine on top */
+  overflow: hidden;
+}
+.glossy-header::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 38px;
+  background: linear-gradient(96deg,rgba(255,255,255,.65) 0%,rgba(255,255,255,0.14) 100%);
+  filter: blur(5px);
+  z-index: 2;
+  border-radius: 0 0 19px 19px;
+  pointer-events: none;
+}
+.glow-btn {
+  box-shadow: 0 0 0 0 var(--theme),0 2px 7px #b7cefb7a;
+  transition: box-shadow .13s, transform .16s;
+  border: 1.5px solid #dae9fe;
+  position: relative;
+  z-index: 1;
+}
+.glow-btn:hover {
+  box-shadow: 0 0 0 3px #a3b8f966, 0 2px 13px #bdd3fc;
+  transform: translateY(-2px) scale(1.04);
+}
+.glow-btn:active {
+  transform: scale(0.97);
+}
+</style>
+
+<!-- Линия-градиент для разделения -->
+<div class="custom-gradient-line"></div>
+
+<!-- Блики на хедере и свечение кнопок вкладок -->
+<script>
+(function(){
+  document.getElementById('brand-header').classList.add('glossy-header');
+  ['tab-feed','tab-chat','tab-create','tab-profile','tab-settings'].forEach(id=>{
+    document.getElementById(id).classList.add('glow-btn');
+  });
+})();
+</script>
+
+<style>
+:root {
+  --theme: #3a5ddc;
+  --primary-bg: linear-gradient(135deg, #f6f8fb 70%, #b4c3f8 100%);
+  --card-bg: #fff;
+  --border-radius: 22px;
+  --shadow: 0 2px 16px rgba(44,44,44,0.07);
+  --text-main: #232334;
+  --button-bg: var(--theme);
+  --button-color: #fff;
+  --tab-bg: #edf0f8;
+  --tab-active-bg: var(--theme);
+  --tab-active-color: #fff;
+  --tab-inactive-color: #67769d;
+  --divider: #ebeef3;
+  --lang-btn-bg: #f3f5fe;
+  --lang-btn-border: #dbe8fc;
+  --lang-btn-active-bg: linear-gradient(90deg, #5e82f8 0%, #3a5ddc 100%);
+  --lang-btn-active-color: #fff;
+}
+body {
+  margin: 0;
+  background: var(--primary-bg);
+  font-family: 'Montserrat', Roboto, Arial, sans-serif;
+  color: var(--text-main);
+  min-height:100vh;
+  background-attachment: fixed;
+}
+#background-blobs {
+  position:fixed; z-index:-2; left:0; top:0; width:100vw; height:100vh; overflow:hidden; pointer-events:none;
+}
+#background-blobs svg {
+  position:absolute; opacity:0.23; filter:blur(14px);
+}
+#brand-header {
+  text-align: center;
+  margin: 0 0 22px 0;
+  padding: 33px 15px 15px 15px;
+  background: var(--card-bg);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  box-shadow: var(--shadow);
+}
+#brand-header-title {
+  font-weight: 900;
+  font-size: 2em;
+  color: var(--theme);
+  margin-bottom: 7px;
+  word-break: break-all;
+  letter-spacing:0.5px;
+}
+#brand-header-desc {
+  color: #9696b0;
+  font-size: 1.05em;
+  margin-top: 1px;
+}
+#tab-bar {
+  display: flex;
+  justify-content: center;
+  max-width: 460px;
+  margin: 22px auto 0 auto;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 4px;
+  gap:4px;
+}
+.tab-btn {
+  flex: 1 0 auto;
+  border: none;
+  background: var(--tab-bg);
+  border-radius: 19px;
+  padding: 13px 0;
+  margin: 0 2px;
+  font-size: 1.11em;
+  color: var(--tab-inactive-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .13s, color .13s, box-shadow .13s;
+}
+.tab-btn.tab-active {
+  background: var(--tab-active-bg);
+  color: var(--tab-active-color);
+  box-shadow: 0 2px 8px #e4edff;
+}
+.page {
+  display: none;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin: 22px auto 0 auto;
+  max-width: 460px;
+  min-height: 340px;
+  width: 97%;
+  padding: 27px 22px;
+  /* Hide scrollbar but allow scroll */
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.page.active { display: block; }
+.profile-avatar {
+  display: block;
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  border: 4px solid var(--theme);
+  margin: 15px auto 19px;
+  object-fit: cover;
+}
+.card, .chat-message, .feed-post {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 19px;
+  padding: 17px 21px;
+}
+input, select, textarea {
+  border: none;
+  background: #f5f6fb;
+  border-radius: 13px;
+  padding: 11px 14px;
+  font-size: 1em;
+  width: 100%;
+  margin-bottom: 13px;
+}
+button {
+  background: var(--button-bg);
+  color: var(--button-color);
+  padding: 12px 28px;
+  border-radius: 16px;
+  border: none;
+  font-weight: 700;
+  font-size: 1.07em;
+  cursor: pointer;
+  transition: background .13s;
+}
+.lang-btn-ui {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom:13px;
+}
+.lang-btn {
+  background: var(--lang-btn-bg);
+  color: #283456;
+  border-radius: 13px;
+  border: 1.5px solid var(--lang-btn-border);
+  font-size: 0.99em;
+  padding: 7px 15px;
+  min-width:70px;
+  margin-bottom:5px;
+  cursor:pointer;
+  font-weight: 700;
+  transition: background .14s, color .14s;
+  box-shadow: 0 1.6px 3px 0 #e3eafc;
+}
+.lang-btn.active, .lang-btn:hover {
+  background: var(--lang-btn-active-bg);
+  color: var(--lang-btn-active-color);
+  border-color: transparent;
+}
+.settings-row {
+  display: flex;
+  align-items:center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap:8px;
+}
+#settings-lang-label {
+  flex-basis: 100px;
+}
+.settings-row input[type="color"] {
+  width:35px; height:35px; border-radius:50%; border:1px solid #eee; cursor:pointer;
+  padding:0;margin-bottom:0;
+  background:#f4f4fa;
+}
+#google-auth-ui {
+  text-align:center;
+  margin-bottom:24px;
+  margin-top:12px;
+}
+#user-email-badge {
+  background: #e5e8fa;
+  color: #225372;
+  padding: 7px 16px;
+  border-radius: 17px;
+  font-size: 1em;
+  font-weight:600;
+  margin-bottom:16px;
+  display:inline-block;
+}
+#auth-form input {
+  margin-bottom:10px;
+}
+#auth-form label {
+  font-weight:600;
+  font-size:.97em;
+  margin-bottom:2px;
+  display:block;
+}
+</style>
+<div id="background-blobs">
+  <svg width="380" height="380" style="left:0;top:0">
+    <ellipse cx="120" cy="90" rx="110" ry="90" fill="#c7d8ff"/>
+  </svg>
+  <svg width="410" height="210" style="right:0;top:30px">
+    <ellipse cx="310" cy="110" rx="101" ry="59" fill="#e4eafc"/>
+  </svg>
+  <svg width="510" height="210" style="bottom:-70px;left:0;">
+    <ellipse cx="220" cy="110" rx="180" ry="80" fill="#dadffb"/>
+  </svg>
+</div>
+
+<div id="brand-header">
+  <div id="brand-header-title"></div>
+  <div id="brand-header-desc"></div>
+</div>
+<nav id="tab-bar">
+  <button class="tab-btn tab-active" data-tab="page-feed" id="tab-feed"></button>
+  <button class="tab-btn" data-tab="page-chat" id="tab-chat"></button>
+  <button class="tab-btn" data-tab="page-create" id="tab-create"></button>
+  <button class="tab-btn" data-tab="page-profile" id="tab-profile"></button>
+  <button class="tab-btn" data-tab="page-settings" id="tab-settings"></button>
+</nav>
+
+<div id="page-feed" class="page active">
+  <h2 id="feed-title" style="text-align:center;margin-bottom:21px;font-weight:700;"></h2>
+  <div id="user-auth-msg-feed" style="margin-bottom:18px;"></div>
+  <div id="feed-posts"></div>
+</div>
+<div id="page-chat" class="page">
+  <h2 id="chat-title" style="text-align:center;margin-bottom:21px;font-weight:700;"></h2>
+  <div id="user-auth-msg-chat" style="margin-bottom:15px;"></div>
+  <div id="chat-messages-list"></div>
+  <div id="chat-input-row" style="margin-top:9px;"></div>
+</div>
+<div id="page-create" class="page">
+  <h2 id="create-title" style="text-align:center;margin-bottom:21px;font-weight:700;"></h2>
+  <div id="user-auth-msg-create" style="margin-bottom:16px;"></div>
+  <form id="create-post-form" autocomplete="off" style="display:none;">
+    <label style="font-weight:600;font-size:.97em;margin-bottom:5px;display:block;" id="photo-label"></label>
+    <input type="file" accept="image/*" id="create-post-photo" style="margin-bottom:12px;">
+    <button style="width:100%;margin-top:5px" id="create-post-btn" type="submit"></button>
+  </form>
+</div>
+<div id="page-profile" class="page">
+  <h2 id="profile-title" style="text-align:center;margin-bottom:13px;font-weight:700;"></h2>
+  <img class="profile-avatar" id="user-profile-avatar" src="default-avatar.png">
+  <input id="avatar-picker" type="file" accept="image/*" style="display:none;">
+  <div id="user-email-badge" style="display:none;"></div>
+  <div class="card" style="text-align:center;">
+    <div><b id="profile-username">@username</b></div>
+    <div id="profile-bio"></div>
+  </div>
+</div>
+<div id="page-settings" class="page">
+  <h2 id="settings-title" style="text-align:center;margin-bottom:12px;font-weight:700;"></h2>
+  <div id="settings-panel">
+    <div class="settings-row">
+      <span id="settings-theme-label"></span>
+      <input type="color" id="theme-color-picker">
+    </div>
+    <div class="settings-row">
+      <span id="settings-lang-label"></span>
+      <div class="lang-btn-ui">
+        <button class="lang-btn" data-lang="ru">Русский</button>
+        <button class="lang-btn" data-lang="en">English</button>
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="kz">Қазақша</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Simple auth modal -->
+<div id="google-auth-ui">
+</div>
+
+<script>
+const LOCAL_KEY_SITE_TITLE = "siteTitle";
+const LOCAL_KEY_THEME = "themeColor";
+const LOCAL_KEY_LANG = "siteLang";
+const LOCAL_KEY_USER = "user";
+const LANGS = {
+  ru: {
+    site: "ARCHEO AI",
+    desc: "Добро пожаловать!",
+    feed: "Лента",
+    chat: "Чат",
+    create: "Добавить фото",
+    createPlaceholder: "Выберите фото",
+    publish: "Опубликовать фото",
+    prof: "Профиль",
+    mainprof: "Краткая информация профиля...",
+    username: "Пользователь",
+    auth: "Войти в Google или email",
+    email: "Email",
+    phone: "Номер (необязательно)",
+    login: "Войти",
+    logout: "Выйти",
+    forpost: "Требуется вход в систему для публикации/чата",
+    forchat: "Войдите чтобы пользоваться чатом",
+    forpostphoto: "Войдите чтобы публиковать фото",
+    changelanguage: "Сменить язык",
+    settings: "Настройки",
+    theme: "Цвет темы",
+    lang: "Язык"
+  },
+  en: {
+    site: "ARCHEO AI",
+    desc: "Welcome!",
+    feed: "Feed",
+    chat: "Chat",
+    create: "Add Photo",
+    createPlaceholder: "Choose photo",
+    publish: "Publish photo",
+    prof: "Profile",
+    mainprof: "Short profile info...",
+    username: "Username",
+    auth: "Sign in with Google or email",
+    email: "Email",
+    phone: "Phone (optional)",
+    login: "Login",
+    logout: "Logout",
+    forpost: "You need to log in to post or chat",
+    forchat: "Please sign in to use chat",
+    forpostphoto: "Please log in to post photos",
+    changelanguage: "Change language", 
+    settings: "Settings",
+    theme: "Theme color",
+    lang: "Language"
+  },
+  zh: {
+    site: "ARCHEO AI",
+    desc: "欢迎！",
+    feed: "动态",
+    chat: "聊天",
+    create: "发照片",
+    createPlaceholder: "上传照片",
+    publish: "发布照片",
+    prof: "个人资料",
+    mainprof: "简短资料介绍...",
+    username: "用户",
+    auth: "用谷歌或邮箱登录",
+    email: "邮箱",
+    phone: "手机号（可选）",
+    login: "登录",
+    logout: "退出",
+    forpost: "需登录后发帖、聊天",
+    forchat: "请先登录以使用聊天",
+    forpostphoto: "发布照片前请登录",
+    changelanguage: "切换语言",
+    settings: "设置",
+    theme: "主题色",
+    lang: "语言"
+  },
+  kz: {
+    site: "ARCHEO AI",
+    desc: "Қош келдіңіз!",
+    feed: "Жаңалықтар",
+    chat: "Чат",
+    create: "Фото қосу",
+    createPlaceholder: "Фото таңдаңыз",
+    publish: "Фото жариялау",
+    prof: "Профиль",
+    mainprof: "Профильдің қысқаша ақпараты...",
+    username: "Пайдаланушы",
+    auth: "Google немесе email арқылы кіру",
+    email: "Email",
+    phone: "Телефон (міндетті емес)",
+    login: "Кіру",
+    logout: "Шығу",
+    forpost: "Пост жіберу/чат үшін кіру қажет",
+    forchat: "Чатты пайдалану үшін кіріңіз",
+    forpostphoto: "Фото жариялау үшін кіріңіз",
+    changelanguage: "Тілді өзгерту",
+    settings: "Баптаулар",
+    theme: "Тақырып түсі",
+    lang: "Тілі"
+  }
+};
+
+function getLang() {
+  return localStorage.getItem(LOCAL_KEY_LANG) || "ru";
+}
+function t(key) {
+  const lang = getLang();
+  return LANGS[lang][key] || "";
+}
+
+function showTab(id) {
+  document.querySelectorAll(".tab-btn").forEach(b=>{
+    b.classList.toggle("tab-active", b.dataset.tab===id)
+  });
+  document.querySelectorAll(".page").forEach(p=>
+    p.classList.toggle("active", p.id===id)
+  );
+}
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.onclick = ()=>showTab(btn.dataset.tab);
+});
+document.getElementById("theme-color-picker").value = localStorage.getItem(LOCAL_KEY_THEME) || '#3a5ddc';
+document.documentElement.style.setProperty("--theme", localStorage.getItem(LOCAL_KEY_THEME) || '#3a5ddc');
+document.getElementById("theme-color-picker").oninput = e=>{
+  document.documentElement.style.setProperty("--theme", e.target.value);
+  localStorage.setItem(LOCAL_KEY_THEME, e.target.value);
+};
+document.querySelectorAll(".lang-btn").forEach(btn=>{
+  btn.onclick = ()=>{
+    localStorage.setItem(LOCAL_KEY_LANG, btn.dataset.lang);
+    updateUITexts();
+    updateAuthUI();
+  };
+});
+function updateUITexts(){
+  const lang = getLang(), tt = LANGS[lang];
+  document.getElementById("brand-header-title").textContent = tt.site;
+  document.getElementById("brand-header-desc").textContent = tt.desc;
+  document.getElementById("tab-feed").textContent = tt.feed;
+  document.getElementById("tab-chat").textContent = tt.chat;
+  document.getElementById("tab-create").textContent = tt.create;
+  document.getElementById("tab-profile").textContent = tt.prof;
+  document.getElementById("tab-settings").textContent = tt.settings;
+  document.getElementById("feed-title").textContent = tt.feed;
+  document.getElementById("chat-title").textContent = tt.chat;
+  document.getElementById("create-title").textContent = tt.create;
+  document.getElementById("create-post-btn").textContent = tt.publish;
+  document.getElementById("profile-title").textContent = tt.prof;
+  document.getElementById("settings-title").textContent = tt.settings;
+  document.getElementById("settings-theme-label").textContent = tt.theme;
+  document.getElementById("settings-lang-label").textContent = tt.lang;
+  document.getElementById("profile-username").textContent = "@"+tt.username;
+  document.getElementById("profile-bio").textContent = tt.mainprof;
+  document.getElementById("photo-label").textContent = tt.createPlaceholder;
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+updateUITexts();
+
+function getUser() {
+  try {
+    return JSON.parse(localStorage.getItem(LOCAL_KEY_USER) || "{}");
+  } catch(e){ return {}; }
+}
+function setUser(u) {
+  localStorage.setItem(LOCAL_KEY_USER, JSON.stringify(u));
+}
+function isAuthed(){
+  const u = getUser();
+  return !!u.email;
+}
+function logoutUser(){
+  localStorage.removeItem(LOCAL_KEY_USER);
+  updateAuthUI();
+  updateProfileUI();
+  updateFeedUI();
+  updateChatUI();
+  updateCreateAuthState();
+}
+
+function updateAuthUI() {
+  // Show login UI or show info and logout
+  const u = getUser();
+  const node = document.getElementById("google-auth-ui");
+  node.innerHTML = "";
+  // Top right logout (in settings)
+  if(isAuthed()){
+    // Show nothing here, logout inside profile; maybe badge in profile only
+    document.getElementById("user-email-badge").style.display = "inline-block";
+    document.getElementById("user-email-badge").textContent = u.email || ""; 
+  } else {
+    document.getElementById("user-email-badge").style.display = "none";
+  }
+}
+function updateProfileUI() {
+  const u = getUser();
+  if(u.avatar){
+    document.getElementById("user-profile-avatar").src = u.avatar;
+  } else {
+    document.getElementById("user-profile-avatar").src = "default-avatar.png";
+  }
+  if(u.email){
+    document.getElementById("user-email-badge").style.display = "inline-block";
+    document.getElementById("user-email-badge").textContent = u.email;
+  } else {
+    document.getElementById("user-email-badge").style.display = "none";
+    document.getElementById("user-profile-avatar").src = "default-avatar.png";
+  }
+}
+function updateFeedUI(){
+  const posts = getPhotoFeed();
+  const pf = document.getElementById('feed-posts');
+  pf.innerHTML = "";
+  posts.reverse().forEach(post=>{
+    pf.appendChild(photoFeedCard(post));
+  });
+}
+
+function updateChatUI(){
+  const chats = getChatMessages();
+  const chatList = document.getElementById("chat-messages-list");
+  chatList.innerHTML = "";
+  const u = getUser();
+  if(!isAuthed()) return;
+  let lastDisplayed = "";
+  chats.forEach(msg => {
+    if((msg.email===u.email && msg.self) || (msg.email !== u.email && !msg.self)){
+      // De-duplication: Show only one instance per repeated msg in chat view
+      if(msg.text === lastDisplayed) return;
+      lastDisplayed = msg.text;
+      chatList.appendChild(chatMsgCard(msg.text, msg.self));
+    }
+  });
+}
+function chatMsgCard(text, me){
+  const d=document.createElement("div");
+  d.textContent=text;
+  d.style=`padding:7px 13px;border-radius:14px;max-width:85%;font-size:1em;margin-bottom:7px;word-break:break-word;background: ${me?"#e0eafa":"#ffdfee"};${me?"margin-left:auto":"margin-right:auto"};`;
+  return d;
+}
+
+function updateCreateAuthState() {
+  document.getElementById("user-auth-msg-create").innerHTML = isAuthed() ? "" : `<div style="color:#b03548;text-align:center;font-size:1.04em;">${t("forpostphoto")}</div>`;
+  document.getElementById("create-post-form").style.display = isAuthed() ? "" : "none";
+}
+function updateFeedAuthMsg(){ 
+  document.getElementById("user-auth-msg-feed").innerHTML = isAuthed() ? "" : `<div style="color:#cc4950;text-align:center;font-size:1.05em;">${t("forpost")}</div>`;
+}
+function updateChatAuthMsg(){
+  document.getElementById("user-auth-msg-chat").innerHTML = isAuthed() ? "" : `<div style="color:#bc495a;text-align:center;margin-bottom:7px;font-size:1.06em;">${t("forchat")}</div>`;
+  document.getElementById("chat-input-row").innerHTML="";
+  if(isAuthed()){
+    // chat input
+    const input = document.createElement("input");
+    input.id = "archeo-chat-input";
+    input.placeholder = t("chat")+"...";
+    input.style = "flex:1;padding:7px 11px;border-radius:7px;border:1px solid #ddd";
+    input.autocomplete="off";
+    const sendBtn = document.createElement("button");
+    sendBtn.textContent = "▶";
+    sendBtn.style = "padding:7px 14px;border-radius:7px;background:#a1aeef;color:#fff;border:none;";
+    const wrap = document.createElement("div");
+    wrap.style="display:flex;gap:6px;";
+    wrap.appendChild(input);
+    wrap.appendChild(sendBtn);
+    document.getElementById("chat-input-row").appendChild(wrap);
+
+    function send(){
+      let v=input.value.trim();
+      if(!v) return;
+      const u=getUser();
+      if(!u.email) return;
+      addChatMsg({email:u.email, text:v, self:true});
+      input.value = "";
+      // Simulate AI reply for demo
+      setTimeout(()=>{addChatMsg({email:'archeo_ai', text:"AI: "+Array.from(v).reverse().join(''), self:false});},500);
+    }
+    sendBtn.onclick=send;
+    input.addEventListener("keydown",e=>{ if(e.key==="Enter") send(); });
+  }
+}
+
+function updateUIs() {
+  updateUITexts();
+  updateFeedAuthMsg();
+  updateChatAuthMsg();
+  updateAuthUI();
+  updateProfileUI();
+  updateFeedUI();
+  updateChatUI();
+  updateCreateAuthState();
+}
+updateUIs();
+ч
+function getPhotoFeed(){
+  try{
+    let f=JSON.parse(localStorage.getItem("photoFeed")||"[]");
+    return Array.isArray(f)? f : [];
+  } catch(e){ return []; }
+}
+function setPhotoFeed(arr){
+  localStorage.setItem("photoFeed", JSON.stringify(arr));
+}
+function addPhotoFeed(post){
+  let arr=getPhotoFeed();
+  arr.push(post);
+  setPhotoFeed(arr);
+}
+function getChatMessages(){
+  try{
+    let c=JSON.parse(localStorage.getItem("chatMsgs")||"[]");
+    return Array.isArray(c)? c : [];
+  }catch(e){return []}
+}
+function setChatMessages(arr){
+  localStorage.setItem("chatMsgs", JSON.stringify(arr));
+}
+function addChatMsg(msg){
+  // msg: {email,text,self:true/false}
+  let arr=getChatMessages();
+  arr.push(msg);
+  setChatMessages(arr);
+  updateChatUI();
+} 
+
+// Feed photo card
+function photoFeedCard(post){
+  const d = document.createElement("div");
+  d.className="feed-post";
+  d.style="padding:12px 8px;background:#fff;box-shadow:0 1.5px 7px #e0e7f8";
+  let img = document.createElement("img");
+  img.src = post.url;
+  img.style="width:100%;border-radius:17px;";
+  d.appendChild(img);
+
+  let meta = document.createElement("div");
+  meta.style="font-size:.99em;color:#9bb0cc;padding-top:3px;text-align:right";
+  meta.textContent = post.author ? post.author : post.email;
+  d.appendChild(meta);
+  return d;
+}
+
+// Auth modal UI logic
+function renderAuthForm(opts={}){
+  document.getElementById("google-auth-ui").innerHTML = "";
+  const div = document.createElement("div");
+  div.id="auth-form";
+  div.style=`display:inline-block;text-align:left;padding:28px 27px;background:#fff;border-radius:22px;box-shadow:0 2px 17px #e4e7f7;max-width:340px;margin:72px auto 31px;position:relative;z-index:10;`
+  const title = document.createElement("div");
+  title.style="text-align:center;font-size:1.16em;font-weight:800;margin-bottom:19px;color:#496ea2;letter-spacing:0.2px;";
+  title.textContent = t("auth");
+  div.appendChild(title);
+
+  // Fake Google button
+  const gbtn = document.createElement("button");
+  gbtn.type="button";
+  gbtn.style = "background:#fff;color:#3e66b4;border:1.5px solid #c3d8fa;font-size:1.09em;padding:10px 17px;border-radius:12px;font-weight:700;display:block;width:100%;margin-bottom:16px;box-shadow:0 1px 4px #e3ebff;";
+  gbtn.innerHTML = `<img src="https://www.svgrepo.com/show/475656/google-color.svg" width="21" style="vertical-align:middle;margin-right:7px;margin-top:-2px;"> Google`;
+  gbtn.onclick = ()=>{
+    // Fake google login: prompt email for demo
+    const demoEmail = prompt("Enter your Google account email for demo (not required real login)","");
+    if(!demoEmail || !/^[^@]+@[^@]+\.[^@]+$/.test(demoEmail)) return;
+    setUser({email: demoEmail});
+    document.getElementById("google-auth-ui").innerHTML = "";
+    updateUIs();
+  };
+  div.appendChild(gbtn);
+  
+  const emailLab = document.createElement("label");
+  emailLab.textContent = t("email");
+  div.appendChild(emailLab);
+  const emailInput = document.createElement("input");
+  emailInput.type="email";
+  emailInput.style="margin-bottom:10px;";
+  emailInput.placeholder="example@email.com";
+  div.appendChild(emailInput);
+
+  const phoneLab = document.createElement("label");
+  phoneLab.textContent = t("phone");
+  div.appendChild(phoneLab);
+  const phoneInput = document.createElement("input");
+  phoneInput.type="tel";
+  phoneInput.placeholder="+7......";
+  phoneInput.style="margin-bottom:17px;"
+  div.appendChild(phoneInput);
+
+  const loginBtn = document.createElement("button");
+  loginBtn.type="button";
+  loginBtn.textContent = t("login");
+  loginBtn.style = "width:100%";
+  loginBtn.onclick=()=>{
+    let em=emailInput.value.trim();
+    if(!em || !/^[^@]+@[^@]+\.[^@]+$/.test(em)) {
+      emailInput.focus();
+      emailInput.style.border="1.5px solid #e23d4b";
+      setTimeout(()=>{emailInput.style.border="";},600)
+      return;
+    }
+    setUser({email:em, phone:phoneInput.value.trim()});
+    document.getElementById("google-auth-ui").innerHTML = "";
+    updateUIs();
+  };
+  div.appendChild(loginBtn);  
+
+  document.getElementById("google-auth-ui").appendChild(div);
+}
+
+function showAuthIfNeeded(){
+  if(!isAuthed()){
+    renderAuthForm();
+    return true;
+  }
+  document.getElementById("google-auth-ui").innerHTML = "";
+  return false;
+}
+function ensureAuthForTab() {
+  const id = document.querySelector(".tab-btn.tab-active").dataset.tab;
+  if(!isAuthed() && (id==="page-profile"||id==="page-create")){
+    showAuthIfNeeded();
+  } else {
+    document.getElementById("google-auth-ui").innerHTML = "";
+  }
+}
+setTimeout(ensureAuthForTab, 0);
+
+document.getElementById("user-profile-avatar").onclick = ()=>{
+  if(!isAuthed()){ showAuthIfNeeded(); return; }
+  document.getElementById("avatar-picker").click();
+};
+document.getElementById("avatar-picker").onchange = function(){
+  if(!isAuthed()) return showAuthIfNeeded();
+  let file = this.files[0];
+  if(!file) return;
+  let r = new FileReader();
+  r.onload = ()=> {
+    let u = getUser();
+    u.avatar = r.result;
+    setUser(u);
+    updateProfileUI();
+  }
+  r.readAsDataURL(file);
+};  
+document.getElementById("user-email-badge").onclick = function(){
+  logoutUser();
+  document.getElementById("user-email-badge").style.display="none";
+};
+document.getElementById("create-post-form").onsubmit = function(e){
+  e.preventDefault();
+  if(!isAuthed()) return showAuthIfNeeded();
+  const file = document.getElementById("create-post-photo").files[0];
+  if(!file){ alert(t("createPlaceholder")); return; }
+  let r = new FileReader();
+  r.onload = ()=>{
+    addPhotoFeed({
+      url: r.result,
+      email: getUser().email,
+      author: getUser().email
+    });
+    updateFeedUI();
+    document.getElementById("create-post-photo").value = "";
+    showTab("page-feed");
+  };
+  r.readAsDataURL(file);
+}
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    setTimeout(()=>{
+      ensureAuthForTab();
+      updateFeedUI();
+      updateChatUI();
+      updateCreateAuthState();
+      updateFeedAuthMsg();
+      updateChatAuthMsg();
+    }, 0);
+  });
+});
+/////////////////////////
+// невьебенный чат
+/////////////////////////
+updateFeedUI();
+updateChatUI();
+updateCreateAuthState();
+
+(function initChat(){
+  // rerender input and list
+  updateChatAuthMsg();
+  updateChatUI();
+})();
+updateProfileUI();
+updateFeedUI();
+updateUIs();
+
+window.addEventListener("storage", ()=>{updateUIs();}); // sync in multi-tabs
+// On load, if not authed, show auth for profile or create
+setTimeout(()=>{
+  if(!isAuthed()){
+    const tab = document.querySelector(".tab-btn.tab-active").dataset.tab;
+    if(tab==="page-create" || tab==="page-profile") showAuthIfNeeded();
+  }
+}, 0)
+</script>
+<script>
+/* ===============================
+   ARCHEO AI MATCHING CORE (MVP)
+   =============================== */
+
+/* 1. Простая "визуальная сигнатура" изображения */
+function generateImageSignature(imgDataUrl) {
+  let hash = 0;
+  for (let i = 0; i < imgDataUrl.length; i += 97) {
+    hash = ((hash << 5) - hash) + imgDataUrl.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
+/* 2. Сравнение сигнатур (псевдо-ИИ сходство) */
+function similarityScore(sigA, sigB) {
+  const diff = Math.abs(sigA - sigB);
+  return Math.max(0, 100 - Math.min(100, diff % 100));
+}
+
+/* 3. Поиск похожих находок */
+function findSimilarFinds(newPost) {
+  const feed = getPhotoFeed();
+  const results = [];
+
+  feed.forEach(old => {
+    if (!old.signature || old.email === newPost.email) return;
+    const score = similarityScore(newPost.signature, old.signature);
+    if (score >= 75) {
+      results.push({ post: old, score });
+    }
+  });
+
+  return results;
+}
+
+/* 4. Общий чат для совпадений */
+function createMatchDiscussion(a, b, score) {
+  const key = `match_${a.signature}_${b.signature}`;
+  let chats = JSON.parse(localStorage.getItem(key) || "[]");
+
+  chats.push({
+    system: true,
+    text: `🧠 ARCHEO AI: Найдено сходство ${score}% между находками ${a.email} и ${b.email}`
+  });
+
+  localStorage.setItem(key, JSON.stringify(chats));
+  alert(`НАЙДЕНО СХОДСТВО ${score}%\nАрхеологи связаны для обсуждения`);
+}
+
+/* 5. Перехватываем добавление фото */
+const originalAddPhotoFeed = addPhotoFeed;
+addPhotoFeed = function(post) {
+  post.signature = generateImageSignature(post.url);
+  originalAddPhotoFeed(post);
+
+  const matches = findSimilarFinds(post);
+  matches.forEach(m => createMatchDiscussion(post, m.post, m.score));
+};
+
+/* 6. Кнопка "Запечатать факт (Gemini)" */
+function sealFactWithAI(text) {
+  /* ЗДЕСЬ ПОТОМ БУДЕТ НАСТОЯЩИЙ GEMINI API */
+  return {
+    verified: true,
+    confidence: "0.93",
+    summary: "Находки имеют общие морфологические признаки и вероятно относятся к одной культуре."
+  };
+}
+
+/* 7. UI для запечатывания */
+function renderSealButton(container, discussionText) {
+  const btn = document.createElement("button");
+  btn.textContent = "🧠 Запечатать факт (AI)";
+  btn.style.marginTop = "12px";
+  btn.onclick = () => {
+    const res = sealFactWithAI(discussionText);
+    alert(
+      "✔ ФАКТ ЗАПЕЧАТАН\n" +
+      "Доверие: " + res.confidence + "\n\n" +
+      res.summary
+    );
+  };
+  container.appendChild(btn);
+}
+</script>
+
+<!--
+End of Selection
+-->
