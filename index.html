@@ -1,12 +1,4 @@
 <body></body>
-<!-- 
-Этот блок надо вставить СРАЗУ в начало <body>. 
-Вклеивай всё между этими комментариями — он делает фон для главного меню и всего приложения Dизайнерски ПРИЯТНЫМ ДЛЯ ГЛАЗ. 
-Здесь только оформление (CSS + SVG). 
-Если хочешь РЕАЛЬНО 1000+ строк фона (PURE VISUALS), то получишь — каждый SVG-блоб уникальный и легко масштабируем:
-
-*СКОПИРОВАТЬ и ВСТАВИТЬ* — Если main.html, index.html, Untitled-3, всё равно куда, главное – перед основным контентом (лучше СРАЗУ после <body>): 
--->
 <style>
   body {
     background: linear-gradient(130deg, #eef4fd 0%, #c8e5ff 45%, #fbe7c6 100%) fixed !important;
@@ -103,6 +95,44 @@
 <!-- 
 Закомментируй или УДАЛИ любые другие старые или более простые варианты background — этот блок полностью перекрывает базовый фон, поэтому код CSS выше будет работать, даже если уже есть другое оформление.
 -->
+
+<!-- Кнопка "Войти" (Login) для входа в аккаунт — вставляется в самое начало <body> -->
+<button id="show-login-btn" style="position:fixed;top:18px;right:18px;z-index:99;min-width:116px;min-height:42px;font-size:1.06em;background:linear-gradient(90deg,#efeeff 0%,var(--theme) 100%);color:#3255a3;font-weight:700;border-radius:16px;box-shadow:0 2px 16px #dbdef8;display:none;align-items:center;gap:8px;">
+  <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="23" style="vertical-align:middle;margin-right:4px;margin-top:-2px;"> 
+  <span>Войти</span>
+</button>
+<script>
+// Показ/скрытие кнопки входа в зависимости от авторизации
+function updateLoginBtn() {
+  const btn = document.getElementById("show-login-btn");
+  // if not authed, show
+  if(typeof isAuthed === "function" && !isAuthed()) {
+    btn.style.display = "flex";
+  } else {
+    btn.style.display = "none";
+  }
+}
+document.addEventListener("DOMContentLoaded", updateLoginBtn);
+window.addEventListener("storage", updateLoginBtn);
+setTimeout(updateLoginBtn, 200);
+if(typeof updateUIs === "function") {
+  // updateUIs will call this again
+  const _old = updateUIs;
+  window.updateUIs = function() {
+    _old();
+    updateLoginBtn();
+  }
+}
+
+// При клике — показ формы авторизации
+document.getElementById("show-login-btn").onclick = function() {
+  if(typeof renderAuthForm === "function") renderAuthForm();
+  // scroll to auth if needed
+  if(document.getElementById("google-auth-ui")) {
+    document.getElementById("google-auth-ui").scrollIntoView({behavior:"smooth"});
+  }
+};
+</script>
 
 
 
