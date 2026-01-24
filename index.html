@@ -1,801 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>DISCOVERY AI</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-    body {
-      background: linear-gradient(130deg, #f3b313 0%, #d2870e 45%, #000000 100%) fixed !important;
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-      margin: 0;
-      font-family: 'Montserrat', Roboto, Arial, sans-serif;
-    }
-    /* Dreamy animated blobs background */
-    #main-bg-blobs {
-      pointer-events: none; z-index: -3; position: fixed; left: 0; top: 0; width: 100vw; height: 100vh;
-    }
-    #main-bg-blobs svg.blob {
-      position: absolute;
-      opacity: 0.19;
-    }
-    @keyframes blobMoveA { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(34px,23px) scale(1.09);}100%{transform:translate(0,0) scale(1);} }
-    @keyframes blobMoveB { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(-32px,13px) scale(1.027);}100%{transform:translate(0,0) scale(1);} }
-    @keyframes blobMoveC { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(70px,55px) scale(1.12);}100%{transform:translate(0,0) scale(1);} }
-    @keyframes blobMoveD { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(-80px,25px) scale(1.11);}100%{transform:translate(0,0) scale(1);} }
-    @keyframes blobMoveE { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(56px,-31px) scale(1.20);}100%{transform:translate(0,0) scale(1);} }
-    @keyframes blobMoveF { 0%{transform:translate(0,0) scale(1);}50%{transform:translate(-45px,43px) scale(1.10);}100%{transform:translate(0,0) scale(1);} }
-    .gradient-line {
-      height: 4px;
-      width: 100%;
-      max-width: 440px;
-      background: linear-gradient(90deg,#e8edff 0%, var(--theme, #3144db) 100%);
-      border-radius: 17px;
-      box-shadow: 0 1.6px 8px #e4ecff;
-      margin: 22px auto 23px auto;
-    }
-    .glossy-header {
-      position: relative;
-      z-index:2;
-      background: linear-gradient(105deg,rgba(251,252,255,0.89),rgba(182,200,252,0.09));
-      border-radius: 0 0 20px 20px;
-      box-shadow: 0 4px 19px 1px #e5ecfa8a;
-      margin-bottom: 13px;
-      overflow: hidden;
-    }
-    .glossy-header::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0;
-      width: 100%; height: 38px;
-      background: linear-gradient(96deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,0.10) 100%);
-      filter: blur(5px);
-      z-index: 2;
-      border-radius: 0 0 19px 19px;
-      pointer-events: none;
-    }
-    #brand-header-title {
-      font-weight: 900;
-      font-size: 2.16em;
-      color: #3a5ddc;
-      letter-spacing:0.5px;
-      margin-bottom: 5px;
-      word-break: break-all;
-    }
-    #brand-header-desc {
-      color: #927d42;
-      font-size: 1.08em;
-      font-weight: 600;
-      margin-top: 2px;
-      letter-spacing: 0.2px;
-    }
-    #tab-bar {
-      display: flex;
-      justify-content: center;
-      max-width: 480px;
-      margin: 24px auto 0;
-      background: #fff;
-      border-radius: 22px;
-      box-shadow: 0 2px 16px rgba(44,44,44,0.07);
-      padding: 4px;
-      gap: 4px;
-    }
-    .tab-btn {
-      flex: 1 0 auto;
-      border: none;
-      background: #edf0f8;
-      border-radius: 19px;
-      padding: 13px 0;
-      margin: 0 2px;
-      font-size: 1.11em;
-      color: #8d7c2d;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background .13s, color .13s, box-shadow .13s;
-      box-shadow: 0 0 0 0 var(--theme),0 2px 7px #b7cefb7a;
-      border: 1.5px solid #fdeda4;
-      position: relative;
-      z-index: 1;
-    }
-    .tab-btn.tab-active {
-      background: linear-gradient(90deg, #ffe5a8 0%, #edbe69 90%);
-      color: #fff;
-      box-shadow: 0 2px 8px #f2c76c;
-    }
-    .tab-btn:hover {
-      box-shadow: 0 0 0 4px #ffe3ac99, 0 2px 13px #ffe5a8;
-      transform: translateY(-2px) scale(1.04);
-      background: linear-gradient(90deg, #fffbea 0%, #ffe0b6 100%);
-      color: #3a2300;
-    }
-    .tab-btn:active { transform: scale(0.98);}
-    .page {
-      display: none;
-      background: #fff;
-      border-radius: 22px;
-      box-shadow: 0 2px 16px rgba(44,44,44,0.07);
-      margin: 22px auto 0;
-      max-width: 480px;
-      min-height: 370px;
-      width: 98%;
-      padding: 27px 22px;
-      overflow-y: auto;
-      scrollbar-width: none;
-      animation: fadePage 0.6s;
-    }
-    .page.active { display: block; }
-    @keyframes fadePage {
-      0%{opacity:0;}
-      100%{opacity:1;}
-    }
-    .feed-post {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 3px 16px #f1daba;
-      margin-bottom: 19px;
-      padding: 13px 13px 7px 13px;
-      border: 1.6px solid #f5e5b3;
-      transition: box-shadow .18s;
-    }
-    .feed-post:hover { box-shadow: 0 8px 20px #eed07b34; }
-    .feed-post img {
-      width: 100%;
-      border-radius: 17px;
-      object-fit: cover;
-      display: block;
-      max-height: 320px;
-      margin-bottom: 5px;
-    }
-    .photo-meta {
-      font-size: .97em;
-      color: #a28725;
-      padding-top: 3px;
-      text-align: right;
-      display: flex;
-      align-items: center;
-      gap: 17px;
-      justify-content: flex-end;
-    }
-    .like-btn {
-      background: none;
-      border: none;
-      color: #dfbd22;
-      font-size: 1.18em;
-      cursor: pointer;
-      transition: color .14s, transform .13s;
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      padding: 0 7px 0 0;
-    }
-    .like-btn.liked {
-      color: #f5993c;
-      text-shadow: 0 1px 7px #f3b31333;
-      transform: scale(1.16);
-    }
-    .profile-avatar {
-      display: block;
-      width: 92px;
-      height: 92px;
-      border-radius: 50%;
-      border: 4px solid #f9ce4c;
-      margin: 15px auto 14px;
-      object-fit: cover;
-      background: #fffbe8;
-      box-shadow: 0 1px 5px #eedda666;
-    }
-    #user-rating-stars {
-      display: flex;
-      gap: 2px;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .rating-star {
-      font-size: 1.36em;
-      color: #e7c235;
-      filter: drop-shadow(0 1px 6px #f7e18f6b);
-      margin: 0 2px;
-    }
-    .lang-btn-ui {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom:13px;
-    }
-    .lang-btn {
-      background: #fcf7ec;
-      color: #564421;
-      border-radius: 13px;
-      border: 1.5px solid #ffe3a7;
-      font-size: 0.99em;
-      padding: 7px 15px;
-      min-width:70px;
-      margin-bottom:5px;
-      cursor:pointer;
-      font-weight: 700;
-      transition: background .14s, color .14s;
-      box-shadow: 0 1.6px 3px 0 #f7e9b4;
-    }
-    .lang-btn.active, .lang-btn:hover {
-      background: linear-gradient(90deg, #ffe5a8 0%, #edbe69 90%);
-      color: #fff;
-      border-color: transparent;
-    }
-    /* Fullscreen auth overlay */
-    #fullscreen-auth-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 888;
-      background: rgba(255,242,212,0.98);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      animation: fadePage 0.65s;
-    }
-    #fullscreen-auth-box {
-      background: #fffde5;
-      border-radius: 22px;
-      padding: 38px 34px 30px 34px;
-      box-shadow: 0 10px 30px #eab41041;
-      text-align: center;
-      max-width: 330px;
-      margin: 12vh auto 0 auto;
-    }
-    #fullscreen-auth-box h2 {
-      margin: 0 0 16px 0;
-      color: #c39417;
-      font-size: 2em;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-    #fullscreen-auth-box p {
-      color: #987a1d;
-      font-size: 1.14em;
-      margin-bottom: 27px;
-    }
-    #fullscreen-auth-box button {
-      background: linear-gradient(92deg,#efd71b 0%,#fec660 100%);
-      color: #6c4e0c;
-      font-size: 1.07em;
-      font-weight: bold;
-      padding: 13px 32px;
-      border-radius: 15px;
-      border: none;
-      box-shadow: 0 2px 17px #ffe6a1;
-      cursor: pointer;
-      transition: background .16s;
-    }
-    @media (max-width: 600px) {
-      #main-bg-blobs svg { width: 70vw !important; height: auto !important; }
-      #fullscreen-auth-box { max-width: 96vw; padding: 6vw 3vw 5vw 3vw;}
-      .page { padding: 5vw 2vw; }
-      #tab-bar, .page { max-width: 99vw;}
-      .feed-post img { max-height: 38vw;}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCHEO AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1c130c;--card:#2b1f14;--soft:#3a2a1b;--accent:#e6c27a;--text:#f6f2ea;--muted:#b9ad9a;}
+body.light{--bg:#f4efe6;--card:#ffffff;--soft:#e5dccf;--text:#2a1f15;--muted:#6a5a48;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,sans-serif;background:var(--bg);color:var(--text);transition:.4s;}
+header{display:flex;align-items:center;gap:16px;padding:16px 20px;position:sticky;top:0;background:rgba(0,0,0,.45);backdrop-filter:blur(12px);z-index:10;}
+h1{font-family:Playfair Display,serif;color:var(--accent);font-size:22px;}
+nav a{margin-right:14px;cursor:pointer;color:var(--muted);}
+nav a.active{color:var(--accent);}
+.search{flex:1;}
+.search input{width:100%;padding:8px 12px;border-radius:10px;border:none;background:var(--soft);color:var(--text);}
+.page{display:none;animation:fade .5s ease;}
+.page.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(25px);}to{opacity:1}}
+.feed{max-width:1200px;margin:30px auto;columns:3;column-gap:20px;}
+.post{break-inside:avoid;background:var(--card);border-radius:18px;padding:14px;margin-bottom:20px;animation:pop .4s ease;box-shadow:0 2px 10px rgba(0,0,0,0.25);}
+@keyframes pop{from{opacity:0;transform:scale(.95);}to{opacity:1}}
+.post img{width:100%;border-radius:14px;}
+.post p{color:var(--muted);font-size:14px;margin:10px 0;}
+.ai-box{background:var(--soft);border-radius:12px;padding:10px;margin:8px 0;font-size:13px;display:flex;justify-content:space-between;align-items:center;}
+.like-box{display:flex;justify-content:space-between;align-items:center;margin-top:6px;}
+.like-box button{padding:6px 12px;border-radius:12px;border:none;background:var(--accent);color:#2a1f15;cursor:pointer;}
+.card{max-width:800px;margin:40px auto;background:var(--card);border-radius:22px;padding:28px;}
+textarea,input{width:100%;padding:12px;border-radius:12px;border:none;background:var(--soft);color:var(--text);}
+button{margin-top:16px;padding:12px;border-radius:14px;border:none;background:var(--accent);color:#2a1f15;font-weight:600;cursor:pointer;}
+.drop{border:2px dashed var(--accent);border-radius:18px;padding:40px;text-align:center;cursor:pointer;}
+.preview{margin-top:16px;}
+.preview img{width:100%;border-radius:16px;}
+.profile{display:grid;grid-template-columns:240px 1fr;gap:24px;}
+.avatar{width:120px;height:120px;border-radius:50%;background:var(--soft);margin-bottom:10px;}
+.stats{display:flex;gap:12px;margin-top:10px;}
+.stat{background:var(--soft);padding:10px;border-radius:12px;text-align:center;flex:1;}
+.opt{padding:10px 16px;border-radius:12px;background:var(--soft);cursor:pointer;}
+.opt.active{background:var(--accent);color:#2a1f15;}
+.row{display:flex;gap:12px;flex-wrap:wrap;}
+@media(max-width:900px){.feed{columns:2}}
+@media(max-width:600px){.feed{columns:1}.profile{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <!-- dreamy blobs -->
-  <div id="main-bg-blobs" aria-hidden="true">
-    <svg class="blob a" viewBox="0 0 440 410" style="left:-44px;top:-10vh;width:460px;height:410px;filter:blur(32px);animation:blobMoveA 18s infinite alternate;"><ellipse cx="211" cy="175" rx="200" ry="145" fill="#bacefb"/></svg>
-    <svg class="blob b" viewBox="0 0 320 280" style="left:65vw;top:0vh;width:320px;height:280px;filter:blur(48px) saturate(1.2);animation:blobMoveB 24s infinite alternate;"><circle cx="140" cy="140" r="120" fill="#ffe0c7"/></svg>
-    <svg class="blob c" viewBox="0 0 400 300" style="left:13vw;top:57vh;width:400px;height:300px;filter:blur(28px);animation:blobMoveC 23s infinite alternate;"><ellipse cx="215" cy="135" rx="160" ry="100" fill="#fbe7c6"/></svg>
-    <svg class="blob d" viewBox="0 0 285 258" style="left:60vw;top:65vh;width:285px;height:258px;filter:blur(37px);animation:blobMoveD 21s infinite alternate;"><ellipse cx="130" cy="100" rx="110" ry="80" fill="#e5efa9"/></svg>
-    <svg class="blob e" viewBox="0 0 210 152" style="left:0vw;top:41vh;width:210px;height:152px;filter:blur(22px);animation:blobMoveE 17s infinite alternate;"><ellipse cx="120" cy="80" rx="88" ry="64" fill="#f1dbab"/></svg>
-    <svg class="blob f" viewBox="0 0 165 94" style="left:86vw;top:13vh;width:170px;height:94px;filter:blur(16px);animation:blobMoveF 30s infinite alternate;"><ellipse cx="80" cy="63" rx="65" ry="28" fill="#dfd4c1"/></svg>
-  </div>
-  <div class="gradient-line"></div>
-  <!-- HEADER -->
-  <div id="brand-header" class="glossy-header">
-    <div id="brand-header-title">DISCOVERY AI</div>
-    <div id="brand-header-desc">Современная археология в ваших руках!</div>
-  </div>
-  <!-- NAVIGATION -->
-  <nav id="tab-bar">
-    <button class="tab-btn tab-active" data-tab="page-feed" id="tab-feed">Лента</button>
-    <button class="tab-btn" data-tab="page-chat" id="tab-chat">Чат</button>
-    <button class="tab-btn" data-tab="page-create" id="tab-create">Добавить фото</button>
-    <button class="tab-btn" data-tab="page-profile" id="tab-profile">Профиль</button>
-    <button class="tab-btn" data-tab="page-settings" id="tab-settings">Настройки</button>
-  </nav>
-  <!-- PAGES -->
-  <div id="page-feed" class="page active">
-    <h2 id="feed-title"></h2>
-    <div id="user-auth-msg-feed"></div>
-    <div id="feed-posts"></div>
-    <div id="feed-search-row" style="text-align:center;margin:10px 0 20px 0;">
-      <input id="feed-search" type="search" placeholder="Поиск по фото/авторам..." style="max-width: 270px;">
-      <button id="feed-search-btn" style="padding:7px 23px;font-size:1.05em;background:#f7e097;color:#8b7404;border-radius:9px;">🔎</button>
-    </div>
-  </div>
-  <div id="page-chat" class="page">
-    <h2 id="chat-title"></h2>
-    <div id="user-auth-msg-chat"></div>
-    <div id="chat-messages-list"></div>
-    <div id="chat-input-row" style="margin-top:9px;"></div>
-  </div>
-  <div id="page-create" class="page">
-    <h2 id="create-title"></h2>
-    <div id="user-auth-msg-create"></div>
-    <form id="create-post-form" autocomplete="off" style="display:none;">
-      <label style="font-weight:600;font-size:.97em;margin-bottom:5px;display:block;" id="photo-label"></label>
-      <input type="file" accept="image/*" id="create-post-photo" style="margin-bottom:12px;">
-      <button id="create-post-btn" type="submit"></button>
-    </form>
-  </div>
-  <div id="page-profile" class="page">
-    <h2 id="profile-title"></h2>
-    <img class="profile-avatar" id="user-profile-avatar" src="default-avatar.png">
-    <input id="avatar-picker" type="file" accept="image/*" style="display:none;">
-    <div id="user-rating-stars"></div>
-    <div id="user-email-badge" style="background:#fff8e7;color:#b88f18;padding:7px 16px;border-radius:17px;font-size:1em;font-weight:600;margin-bottom:16px;display:none;cursor:pointer;"></div>
-    <div class="card" style="text-align:center;background:#fff;border-radius:20px;box-shadow:0 2px 16px #f5deb396;margin-bottom:17px;padding:17px 21px;">
-      <div><b id="profile-username">@username</b></div>
-      <div id="profile-bio"></div>
-    </div>
-  </div>
-  <div id="page-settings" class="page">
-    <h2 id="settings-title"></h2>
-    <div id="settings-panel">
-      <div class="settings-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:8px;">
-        <span id="settings-theme-label"></span>
-        <input type="color" id="theme-color-picker">
+
+<header>
+<h1>ARCHEO AI</h1>
+<nav>
+<a data-tab="feed" class="active" data-i="feed"></a>
+<a data-tab="upload" data-i="upload"></a>
+<a data-tab="profile" data-i="profile"></a>
+<a data-tab="settings" data-i="settings"></a>
+</nav>
+<div class="search">
+<input id="search" data-i-ph="search">
+</div>
+</header>
+
+<section id="feed" class="page active">
+<div class="feed" id="feedBox"></div>
+</section>
+
+<section id="upload" class="page">
+<div class="card">
+<h2 data-i="add"></h2>
+<div class="drop" id="drop">Drop image here</div>
+<div class="preview" id="preview"></div>
+<textarea id="desc" data-i-ph="desc"></textarea>
+<button onclick="publish()" data-i="publish"></button>
+</div>
+</section>
+
+<section id="profile" class="page">
+<div class="card profile">
+<div>
+<div class="avatar"></div>
+<h3 id="uName">Explorer</h3>
+<div class="stats">
+<div class="stat"><b id="uPosts">0</b><br><span data-i="finds"></span></div>
+<div class="stat"><b id="uRate">0</b><br><span data-i="rating"></span></div>
+</div>
+</div>
+<div id="myPosts"></div>
+</div>
+</section>
+
+<section id="settings" class="page">
+<div class="card">
+<h2 data-i="settings"></h2>
+<h4 data-i="lang"></h4>
+<div class="row" id="langs"></div>
+<h4 data-i="theme"></h4>
+<div class="row">
+<div class="opt" onclick="setTheme('dark')">Dark</div>
+<div class="opt" onclick="setTheme('light')">Light</div>
+</div>
+</div>
+</section>
+
+<script>
+let posts=[],rating=0,fileData=null;
+
+/* LANGUAGES */
+const T={
+ru:{feed:"Лента",upload:"Добавить",profile:"Профиль",settings:"Настройки",add:"Добавить находку",publish:"Опубликовать",search:"Поиск",desc:"Описание",finds:"Находки",rating:"Рейтинг",lang:"Язык",theme:"Тема"},
+en:{feed:"Feed",upload:"Upload",profile:"Profile",settings:"Settings",add:"Add find",publish:"Publish",search:"Search",desc:"Description",finds:"Finds",rating:"Rating",lang:"Language",theme:"Theme"},
+zh:{feed:"发现",upload:"上传",profile:"个人",settings:"设置",add:"添加发现",publish:"发布",search:"搜索",desc:"描述",finds:"发现",rating:"评分",lang:"语言",theme:"主题"},
+kz:{feed:"Лента",upload:"Қосу",profile:"Профиль",settings:"Баптау",add:"Табыс қосу",publish:"Жариялау",search:"Іздеу",desc:"Сипаттама",finds:"Табыс",rating:"Рейтинг",lang:"Тіл",theme:"Тақырып"}
+};
+let lang=localStorage.lang||"ru";
+function applyLang(){
+document.querySelectorAll("[data-i]").forEach(e=>e.textContent=T[lang][e.dataset.i]);
+document.querySelectorAll("[data-i-ph]").forEach(e=>e.placeholder=T[lang][e.dataset.iPh]);
+}
+const langsBox=document.getElementById("langs");
+["ru","en","zh","kz"].forEach(l=>{
+  const b=document.createElement("div");
+  b.className="opt"+(l===lang?" active":"");
+  b.textContent=l.toUpperCase();
+  b.onclick=()=>{lang=l;localStorage.lang=l;applyLang();langsBox.querySelectorAll(".opt").forEach(x=>x.classList.remove("active"));b.classList.add("active");};
+  langsBox.appendChild(b);
+});
+
+/* NAVIGATION */
+document.querySelectorAll("nav a").forEach(a=>{
+  a.onclick=()=>{document.querySelectorAll("nav a").forEach(x=>x.classList.remove("active"));a.classList.add("active");document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(a.dataset.tab).classList.add("active");}
+});
+
+/* UPLOAD */
+const drop=document.getElementById("drop");
+drop.onclick=()=>file.click();
+const file=document.createElement("input");
+file.type="file";
+file.onchange=e=>{fileData=URL.createObjectURL(e.target.files[0]);preview.innerHTML=`<img src="${fileData}">`;};
+
+/* AI ANALYSIS DEMO */
+function aiAnalyse(){
+  const mats=["Clay","Stone","Bronze","Iron"];
+  const eras=["Neolithic","Bronze Age","Iron Age","Medieval"];
+  return {material:mats[Math.random()*mats.length|0],era:eras[Math.random()*eras.length|0],confidence:Math.floor(80+Math.random()*20)};
+}
+
+/* PUBLISH POST */
+function publish(){
+  if(!fileData) return alert("Image required");
+  const ai=aiAnalyse();
+  const post={img:fileData,text:desc.value,ai,likes:0};
+  posts.unshift(post);
+  rating+=10;
+  renderFeed();
+  renderProfile();
+  desc.value=""; preview.innerHTML=""; fileData=null;
+}
+
+/* RENDER FEED */
+function renderFeed(){
+  feedBox.innerHTML="";
+  posts.forEach((p,i)=>{
+    feedBox.innerHTML+=`
+    <div class="post">
+      <img src="${p.img}">
+      <p>${p.text}</p>
+      <div class="ai-box">
+        <div>AI: ${p.ai.material}, ${p.ai.era}</div>
+        <div>Confidence: ${p.ai.confidence}%</div>
       </div>
-      <div class="settings-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:8px;">
-        <span id="settings-lang-label"></span>
-        <div class="lang-btn-ui">
-          <button class="lang-btn" data-lang="ru">Русский</button>
-          <button class="lang-btn" data-lang="en">English</button>
-          <button class="lang-btn" data-lang="zh">中文</button>
-          <button class="lang-btn" data-lang="kz">Қазақша</button>
-        </div>
+      <div class="like-box">
+        <div>Rating: ${p.likes}</div>
+        <button onclick="likePost(${i})">Like</button>
       </div>
-    </div>
-  </div>
-  <div id="google-auth-ui"></div>
-  <div id="fullscreen-auth-overlay" style="display:none;">
-    <div id="fullscreen-auth-box">
-      <h2>DISCOVERY AI</h2>
-      <p>Для продолжения необходимо пройти регистрацию!<br><span style="font-size:.98em;">(Войти как в Instagram, для археологов)</span></p>
-      <button id="auth-go-btn">Войти / Зарегистрироваться</button>
-    </div>
-  </div>
-  <script>
-    // ---- DATA and LANGS ----
-    const LOCAL_KEY_SITE_TITLE = "siteTitle";
-    const LOCAL_KEY_THEME = "themeColor";
-    const LOCAL_KEY_LANG = "siteLang";
-    const LOCAL_KEY_USER = "user";
-    const LOCAL_KEY_FEED = "photoFeed";
-    const LOCAL_KEY_CHAT = "chatMsgs";
-    const LOCAL_KEY_LIKES = "photoLikes";
-    const LANGS = {
-      ru: { site:"DISCOVERY AI",desc:"Современная археология в ваших руках!",feed:"Лента",chat:"Чат",create:"Добавить фото",createPlaceholder:"Выберите археологическую фотографию",publish:"Опубликовать фото",prof:"Профиль",mainprof:"Здесь будут ваши артефакты и рейтинг",username:"Пользователь",auth:"Войти через Google или email",email:"Email",phone:"Номер (необязательно)",login:"Войти",logout:"Выйти",forpost:"Авторизуйтесь для публикации/чата",forchat:"Войдите для доступа к чату",forpostphoto:"Войдите для публикации фото",changelanguage:"Сменить язык",settings:"Настройки",theme:"Цвет темы",lang:"Язык",search:"Поиск",likes:"Лайков",stars:"Рейтинг"},
-      en: { site:"DISCOVERY AI",desc:"Modern archaeology in your hands!",feed:"Feed",chat:"Chat",create:"Add Photo",createPlaceholder:"Choose archaeological photo",publish:"Publish photo",prof:"Profile",mainprof:"Your artifacts and rating appear here",username:"Username",auth:"Sign in with Google or email",email:"Email",phone:"Phone (optional)",login:"Login",logout:"Logout",forpost:"Please sign in to post or chat",forchat:"Sign in to use chat",forpostphoto:"Sign in to post photos",changelanguage:"Change language",settings:"Settings",theme:"Theme color",lang:"Language",search:"Search",likes:"Likes",stars:"Rating"},
-      zh: { site:"DISCOVERY AI",desc:"现代考古学尽在掌握！",feed:"动态",chat:"聊天",create:"添加照片",createPlaceholder:"选择考古照片",publish:"发布照片",prof:"个人资料",mainprof:"你的文物与评分将在此显示",username:"用户名",auth:"用Google或邮箱登录",email:"邮箱",phone:"手机号（可选）",login:"登录",logout:"退出",forpost:"登录后可发帖和聊天",forchat:"请先登录以使用聊天",forpostphoto:"登录后可发布图片",changelanguage:"切换语言",settings:"设置",theme:"主题色",lang:"语言",search:"查找",likes:"喜欢",stars:"评分"},
-      kz: { site:"DISCOVERY AI",desc:"Археология – сіздің қолыңызда",feed:"Жаңалықтар",chat:"Чат",create:"Фото қосу",createPlaceholder:"Археологиялық фото таңдаңыз",publish:"Фото жариялау",prof:"Профиль",mainprof:"Артефактілеріңіз бен рейтингіңіз",username:"Пайдаланушы",auth:"Google немесе email арқылы кіру",email:"Email",phone:"Телефон (міндетті емес)",login:"Кіру",logout:"Шығу",forpost:"Пост/чат үшін кіру қажет",forchat:"Чатты пайдалану үшін кіріңіз",forpostphoto:"Фото жариялау үшін кіріңіз",changelanguage:"Тілді өзгерту",settings:"Баптаулар",theme:"Тақырып түсі",lang:"Тілі",search:"Іздеу",likes:"Лайктар",stars:"Рейтинг"}
-    };
-    // ---- Core Utility Functions ----
-    function getLang() { return localStorage.getItem(LOCAL_KEY_LANG) || "ru"; }
-    function t(key) { const lang=getLang(); return (LANGS[lang]&&LANGS[lang][key])||""; }
-    // ---- Auth + UI logic ----
-    function getUser() { try{ return JSON.parse(localStorage.getItem(LOCAL_KEY_USER)||"{}"); }catch(e){return {};} }
-    function setUser(u) { localStorage.setItem(LOCAL_KEY_USER, JSON.stringify(u)); }
-    function isAuthed() { const u = getUser(); return !!u.email;}
-    function logoutUser() { localStorage.removeItem(LOCAL_KEY_USER); updateUIs(); showAuthIfNeeded(); }
-    // ---- FEED ----
-    function getPhotoFeed() {
-      try{ let f=JSON.parse(localStorage.getItem(LOCAL_KEY_FEED)||"[]"); return Array.isArray(f)? f : []; }catch(e){return [];}
-    }
-    function setPhotoFeed(arr) { localStorage.setItem(LOCAL_KEY_FEED, JSON.stringify(arr)); }
-    function addPhotoFeed(post) {
-      let arr = getPhotoFeed();
-      arr.push(post);
-      setPhotoFeed(arr);
-    }
-    // ---- LIKES ----
-    // likes stored as mapping: { [photoUrl]: [em1, em2] }
-    function getPhotoLikes() { try{ let l=JSON.parse(localStorage.getItem(LOCAL_KEY_LIKES)||"{}"); return typeof l==="object"&&l?l:{};}catch(e){return {};} }
-    function setPhotoLikes(arr) { localStorage.setItem(LOCAL_KEY_LIKES, JSON.stringify(arr)); }
-    function likePhoto(url, email) {
-      const likesObj = getPhotoLikes();
-      if (!likesObj[url]) likesObj[url] = [];
-      if (!likesObj[url].includes(email)) likesObj[url].push(email);
-      setPhotoLikes(likesObj);
-    }
-    function unlikePhoto(url, email) {
-      const likesObj = getPhotoLikes();
-      if (likesObj[url]) likesObj[url] = likesObj[url].filter(e => e !== email);
-      setPhotoLikes(likesObj);
-    }
-    // ---- RATING ----
-    function getUserRating(email) {
-      // number of likes from all of user's photos
-      const feed = getPhotoFeed();
-      const likes = getPhotoLikes();
-      let cnt = 0;
-      feed.forEach(p=>{
-        if(p.email&&p.email===email && likes[p.url]) cnt += likes[p.url].length;
-      });
-      return cnt;
-    }
-    function getTopUsers(limit=6) {
-      // Returns array of {email, score }
-      const users = {};
-      const feed = getPhotoFeed();
-      const likes = getPhotoLikes();
-      feed.forEach(p => {
-        const em = p.email;
-        if (!users[em]) users[em]=0;
-        users[em] += likes[p.url]?.length||0;
-      });
-      return Object.entries(users)
-        .filter(([em])=>em)
-        .map(([email,score])=>({email,score}))
-        .sort((a,b)=>b.score-a.score)
-        .slice(0,limit);
-    }
-    // ---- CHAT ----
-    function getChatMessages() {
-      try{ let c=JSON.parse(localStorage.getItem(LOCAL_KEY_CHAT)||"[]"); return Array.isArray(c)?c:[]; }catch(e){return [];}
-    }
-    function setChatMessages(arr) { localStorage.setItem(LOCAL_KEY_CHAT, JSON.stringify(arr)); }
-    function addChatMsg(msg) {
-      let arr=getChatMessages();
-      arr.push(msg);
-      setChatMessages(arr);
-      updateChatUI();
-    }
-    // ---- UI Texts ----
-    function updateUITexts() {
-      const lang = getLang(), tt = LANGS[lang];
-      document.getElementById("brand-header-title").textContent = tt.site;
-      document.getElementById("brand-header-desc").textContent = tt.desc;
-      document.getElementById("tab-feed").textContent = tt.feed;
-      document.getElementById("tab-chat").textContent = tt.chat;
-      document.getElementById("tab-create").textContent = tt.create;
-      document.getElementById("tab-profile").textContent = tt.prof;
-      document.getElementById("tab-settings").textContent = tt.settings;
-      document.getElementById("feed-title").textContent = tt.feed;
-      document.getElementById("chat-title").textContent = tt.chat;
-      document.getElementById("create-title").textContent = tt.create;
-      document.getElementById("create-post-btn").textContent = tt.publish;
-      document.getElementById("profile-title").textContent = tt.prof;
-      document.getElementById("settings-title").textContent = tt.settings;
-      document.getElementById("settings-theme-label").textContent = tt.theme;
-      document.getElementById("settings-lang-label").textContent = tt.lang;
-      document.getElementById("profile-username").textContent = "@"+tt.username;
-      document.getElementById("profile-bio").textContent = tt.mainprof;
-      document.getElementById("photo-label").textContent = tt.createPlaceholder;
-      document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.lang===lang));
-      document.getElementById("feed-search").placeholder = tt.search+"...";
-    }
-    // ---- PROFILE -- AVATAR & EMAIL ----
-    function updateProfileUI() {
-      const u = getUser();
-      document.getElementById("user-profile-avatar").src = u.avatar?u.avatar:"default-avatar.png";
-      if(u.email){
-        document.getElementById("user-email-badge").style.display="inline-block";
-        document.getElementById("user-email-badge").textContent = u.email;
-        // Show rating stars
-        let starsVal = Math.round(getUserRating(u.email)/3);
-        let dom = "";
-        const ratingCount = getUserRating(u.email);
-        for(let i=0;i<Math.max(1,starsVal);++i) dom += '<span class="rating-star">★</span>';
-        if(ratingCount===0) dom = '<span class="rating-star" style="color:#ddd;">☆</span>';
-        document.getElementById("user-rating-stars").innerHTML = dom + ' <span style="font-size:.97em;color:#baa44d;">'+t("stars")+': '+ratingCount+'</span>';
-      } else {
-        document.getElementById("user-email-badge").style.display="none";
-        document.getElementById("user-profile-avatar").src = "default-avatar.png";
-        document.getElementById("user-rating-stars").innerHTML = "";
-      }
-    }
-    // ---- FEED CARDS (with likes) ----
-    function photoFeedCard(post, userEmail) {
-      const d=document.createElement("div");
-      d.className="feed-post";
-      let img=document.createElement("img");
-      img.src=post.url;
-      d.appendChild(img);
-      let meta=document.createElement("div");
-      meta.className="photo-meta";
-      // Likes
-      const likesObj = getPhotoLikes();
-      let likeCount = (likesObj[post.url]||[]).length;
-      let liked = !!(userEmail && likesObj[post.url] && likesObj[post.url].includes(userEmail));
-      let likeBtn = document.createElement("button");
-      likeBtn.className = "like-btn" + (liked ? " liked":"");
-      likeBtn.innerHTML = liked ? "❤️" : "🤍";
-      likeBtn.innerHTML += " <span>" + likeCount + " "+ t("likes")+"</span>";
-      likeBtn.onclick = function(){
-        if(!isAuthed()){ showAuthIfNeeded(); return;}
-        let em = getUser().email;
-        if(likeBtn.classList.contains("liked")){
-          unlikePhoto(post.url,em);
-        }else{
-          likePhoto(post.url,em);
-        }
-        updateFeedUI();
-        updateProfileUI();
-      }
-      meta.appendChild(likeBtn);
-      let span=document.createElement("span");
-      span.textContent = post.author?post.author:post.email;
-      meta.appendChild(span);
-      d.appendChild(meta);
-      return d;
-    }
-    // ---- FEED UI
-    function updateFeedUI(searchQ) {
-      const posts = getPhotoFeed();
-      const pf = document.getElementById('feed-posts');
-      pf.innerHTML = "";
-      let filtered = posts;
-      if (typeof searchQ === "string" && searchQ.trim()) {
-        let q = searchQ.trim().toLowerCase();
-        filtered = posts.filter(p=>{
-          return (p.author||"").toLowerCase().includes(q) ||
-                 (p.email||"").toLowerCase().includes(q);
-        });
-      }
-      filtered.slice().reverse().forEach(post=>{
-        pf.appendChild(photoFeedCard(post, getUser().email));
-      });
-    }
-    // ---- CHAT UI ----
-    function chatMsgCard(text, me) {
-      const d=document.createElement("div");
-      d.textContent=text;
-      d.style=`padding:7px 13px;border-radius:14px;max-width:85%;font-size:1em;margin-bottom:7px;word-break:break-word;background:${me?"#ffeaa82e":"#ffe8fd"};${me?"margin-left:auto":"margin-right:auto"};`;
-      return d;
-    }
-    function updateChatUI(){
-      const chats=getChatMessages();
-      const chatList=document.getElementById("chat-messages-list");
-      chatList.innerHTML="";
-      const u = getUser();
-      if(!isAuthed()) return;
-      chats.forEach(msg=>{
-        chatList.appendChild(chatMsgCard(msg.text,msg.self));
-      });
-      chatList.scrollTop = chatList.scrollHeight;
-    }
-    // ---- AUTH OVERLAY ----
-    function showAuthIfNeeded(){
-      if(!isAuthed()){
-        document.getElementById("fullscreen-auth-overlay").style.display="flex";
-        return true;
-      }
-      document.getElementById("fullscreen-auth-overlay").style.display="none";
-      document.getElementById("google-auth-ui").innerHTML = "";
-      return false;
-    }
-    // ---- AUTH FORM ----
-    function renderAuthForm(opts={}){
-      document.getElementById("google-auth-ui").innerHTML="";
-      const div = document.createElement("div");
-      div.id="auth-form";
-      div.style=`display:inline-block;text-align:left;padding:28px 27px;background:#fffbdd;border-radius:22px;box-shadow:0 2px 13px #ffe0a7;max-width:340px;margin:54px auto 31px;position:relative;z-index:10;`
-      const title = document.createElement("div");
-      title.style="text-align:center;font-size:1.18em;font-weight:800;margin-bottom:19px;color:#e8b42c;letter-spacing:0.2px;";
-      title.textContent = t("auth");
-      div.appendChild(title);
-      // Google btn
-      const gbtn = document.createElement("button");
-      gbtn.type="button";
-      gbtn.style="background:#fff;color:#ffd734;border:1.5px solid #f9e186;font-size:1.09em;padding:10px 17px;border-radius:12px;font-weight:700;display:block;width:100%;margin-bottom:16px;box-shadow:0 1px 4px #fada97;";
-      gbtn.innerHTML = `<img src="https://www.svgrepo.com/show/475656/google-color.svg" width="21" style="vertical-align:middle;margin-right:7px;margin-top:-2px;"> Google`;
-      gbtn.onclick = ()=>{
-        const demoEmail=prompt("Введите ваш Google Email для демо","");
-        if(!demoEmail || !/^[^@]+@[^@]+\.[^@]+$/.test(demoEmail)) return;
-        setUser({email:demoEmail});
-        document.getElementById("google-auth-ui").innerHTML="";
-        document.getElementById("fullscreen-auth-overlay").style.display="none";
-        updateUIs();
-      }
-      div.appendChild(gbtn);
-      const emailLab=document.createElement("label");
-      emailLab.textContent=t("email");
-      div.appendChild(emailLab);
-      const emailInput=document.createElement("input");
-      emailInput.type="email";
-      emailInput.style="margin-bottom:10px;";
-      emailInput.placeholder="example@email.com";
-      div.appendChild(emailInput);
-      const phoneLab=document.createElement("label");
-      phoneLab.textContent=t("phone");
-      div.appendChild(phoneLab);
-      const phoneInput=document.createElement("input");
-      phoneInput.type="tel";
-      phoneInput.placeholder="+7......";
-      phoneInput.style="margin-bottom:17px;";
-      div.appendChild(phoneInput);
-      const loginBtn=document.createElement("button");
-      loginBtn.type="button";
-      loginBtn.textContent=t("login");
-      loginBtn.style="width:100%";
-      loginBtn.onclick=()=>{
-        let em=emailInput.value.trim();
-        if(!em || !/^[^@]+@[^@]+\.[^@]+$/.test(em)){
-          emailInput.focus();
-          emailInput.style.border="1.5px solid #e23d4b";
-          setTimeout(()=>{emailInput.style.border="";},600)
-          return;
-        }
-        setUser({email:em, phone:phoneInput.value.trim()});
-        document.getElementById("google-auth-ui").innerHTML="";
-        document.getElementById("fullscreen-auth-overlay").style.display="none";
-        updateUIs();
-      };
-      div.appendChild(loginBtn);
-      document.getElementById("google-auth-ui").appendChild(div);
-    }
-    // ---- UI UPDATES ----
-    function updateFeedAuthMsg(){ document.getElementById("user-auth-msg-feed").innerHTML=isAuthed()?"":`<div style="color:#cc4950;text-align:center;font-size:1.05em;">${t("forpost")}</div>`;}
-    function updateChatAuthMsg(){ 
-      document.getElementById("user-auth-msg-chat").innerHTML=isAuthed()?"":`<div style="color:#bc495a;text-align:center;margin-bottom:7px;font-size:1.06em;">${t("forchat")}</div>`;
-      document.getElementById("chat-input-row").innerHTML="";
-      if(isAuthed()){
-        const input = document.createElement("input");
-        input.id="archeo-chat-input";
-        input.placeholder = t("chat")+"...";
-        input.style = "flex:1;padding:7px 11px;border-radius:7px;border:1px solid #f9e096";
-        input.autocomplete="off";
-        const sendBtn = document.createElement("button");
-        sendBtn.textContent = "▶";
-        sendBtn.style = "padding:7px 14px;border-radius:7px;background:#ead370;color:#fff;border:none;";
-        const wrap = document.createElement("div");
-        wrap.style="display:flex;gap:6px;";
-        wrap.appendChild(input); wrap.appendChild(sendBtn);
-        document.getElementById("chat-input-row").appendChild(wrap);
-          function send(){
-            let v=input.value.trim();
-            if(!v) return;
-            const u=getUser();
-            if(!u.email) return;
-            addChatMsg({email:u.email, text:v, self:true});
-            input.value="";
-            setTimeout(()=>{addChatMsg({email:'discovery_ai',text:"AI: "+Array.from(v).reverse().join(''),self:false});},360);
-          }
-        sendBtn.onclick=send;
-        input.addEventListener("keydown",e=>{ if(e.key==="Enter") send(); });
-      }
-    }
-    function updateCreateAuthState(){
-      document.getElementById("user-auth-msg-create").innerHTML=isAuthed()?"":`<div style="color:#b03548;text-align:center;font-size:1.04em;">${t("forpostphoto")}</div>`;
-      document.getElementById("create-post-form").style.display = isAuthed()?"":"none";
-    }
-    function updateUIs(){
-      updateUITexts();
-      updateFeedAuthMsg();
-      updateChatAuthMsg();
-      updateProfileUI();
-      updateFeedUI();
-      updateChatUI();
-      updateCreateAuthState();
-    }
-    // ---- SEARCH BAR ----
-    document.getElementById("feed-search-btn").onclick = function(){
-      updateFeedUI(document.getElementById("feed-search").value);
-    };
-    document.getElementById("feed-search").onkeydown = function(e){
-      if(e.key==="Enter") updateFeedUI(this.value);
-    }
-    // ---- Navigation tabs
-    function showTab(id){
-      document.querySelectorAll(".tab-btn").forEach(b=>{
-        b.classList.toggle("tab-active", b.dataset.tab===id);
-      });
-      document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
-      document.querySelectorAll(".page").forEach(p=>p.style.display=p.classList.contains('active')?'block':'none');
-    }
-    document.querySelectorAll(".tab-btn").forEach(btn=>{ btn.onclick=()=>{showTab(btn.dataset.tab); setTimeout(updateUIs, 60)}; });
-    // Theme picker
-    document.getElementById("theme-color-picker").value = localStorage.getItem(LOCAL_KEY_THEME)||'#ffd41a';
-    document.documentElement.style.setProperty("--theme", localStorage.getItem(LOCAL_KEY_THEME)||'#ffd41a');
-    document.getElementById("theme-color-picker").oninput = e=>{
-      document.documentElement.style.setProperty("--theme", e.target.value);
-      localStorage.setItem(LOCAL_KEY_THEME, e.target.value);
-    };
-    // Langs
-    document.querySelectorAll(".lang-btn").forEach(btn=>{
-      btn.onclick=()=>{
-        localStorage.setItem(LOCAL_KEY_LANG, btn.dataset.lang);
-        updateUIs();
-      };
-    });
-    // Avatar Profile
-    document.getElementById("user-profile-avatar").onclick=function(){
-      if(!isAuthed()){ showAuthIfNeeded(); return;}
-      document.getElementById("avatar-picker").click();
-    };
-    document.getElementById("avatar-picker").onchange=function(){
-      if(!isAuthed()) return showAuthIfNeeded();
-      let file = this.files[0];
-      if(!file) return;
-      let r=new FileReader();
-      r.onload=function(){
-        let u=getUser();
-        u.avatar=r.result;
-        setUser(u);
-        updateProfileUI();
-      };
-      r.readAsDataURL(file);
-    };
-    document.getElementById("user-email-badge").onclick = function(){
-      logoutUser(); document.getElementById("user-email-badge").style.display="none";
-    };
-    // Create POST
-    document.getElementById("create-post-form").onsubmit=function(e){
-      e.preventDefault();
-      if(!isAuthed()) return showAuthIfNeeded();
-      const file=document.getElementById("create-post-photo").files[0];
-      if(!file){ alert(t("createPlaceholder")); return; }
-      let r=new FileReader();
-      r.onload=function(){
-        let u = getUser();
-        addPhotoFeed({ url:r.result, email:u.email, author:u.email });
-        updateFeedUI();
-        document.getElementById("create-post-photo").value="";
-        showTab("page-feed");
-      };
-      r.readAsDataURL(file);
-    }
-    // On tab click: update UIs (for feed, auth, chat, etc)
-    document.querySelectorAll(".tab-btn").forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        setTimeout(()=>{
-          updateUIs();
-          if((btn.dataset.tab==="page-create"||btn.dataset.tab==="page-profile") && !isAuthed()){
-            showAuthIfNeeded();
-          }
-        }, 0);
-      });
-    });
-    // Fullscreen AUTH overlay
-    document.getElementById("auth-go-btn").onclick=function(){
-      document.getElementById("google-auth-ui").innerHTML="";
-      renderAuthForm();
-    }
-    // Show full overlay if needed on load
-    function ensureAuthOverlayIfNeeded(){
-      if(!isAuthed()){
-        document.getElementById("fullscreen-auth-overlay").style.display = "flex";
-        renderAuthForm();
-      } else {
-        document.getElementById("fullscreen-auth-overlay").style.display = "none";
-      }
-    }
-    // Startup routines
-    updateUIs();
-    setTimeout(function(){
-      ensureAuthOverlayIfNeeded();
-    },120);
-    window.addEventListener("storage",()=>{updateUIs();});
-    // scroll/refresh on feed for infinite scroll effect (faked)
-    document.getElementById("feed-posts").onscroll = function(e){
-      if(this.scrollTop + this.clientHeight > this.scrollHeight-55){
-        // Could load more via fetch/db if backend
-      }
-    };
-    // Demo: Add initial demo items, only if feed empty
-    if(!getPhotoFeed().length){
-      [
-        { url:"https://upload.wikimedia.org/wikipedia/commons/6/6b/Teotihuacan_pyramid_of_the_Sun.jpg", email:"demo@ru.archeo", author:"DemoUser" },
-        { url:"https://upload.wikimedia.org/wikipedia/commons/5/55/Historic_Centre_of_Cordoba-600x400.jpg", email:"test2@archeo.ai", author:"АрхеоTest" }
-      ].forEach(addPhotoFeed);
-    }
-    // Top users showcase - optionally show in feed or profile
-    // ... (expand as needed)
-  </script>
+    </div>`;
+  });
+}
+
+/* LIKE POST */
+function likePost(i){posts[i].likes++; rating++; renderFeed(); renderProfile();}
+
+/* PROFILE */
+function renderProfile(){
+  uPosts.textContent=posts.length;
+  uRate.textContent=rating;
+  myPosts.innerHTML="";
+  posts.forEach(p=>{myPosts.innerHTML+=`<div class="post"><img src="${p.img}"><p>${p.text}</p></div>`;});
+}
+
+/* THEME */
+function setTheme(t){document.body.className=t==="light"?"light":"";localStorage.theme=t;}
+if(localStorage.theme==="light")setTheme("light");
+applyLang();
+</script>
 </body>
 </html>
-// Убираем overlay регистрации на старте, но оставляем работу регистрации внутри
-
-// просто скрываем overlay при загрузке
-document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("fullscreen-auth-overlay").style.display = "none";
-});
