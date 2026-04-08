@@ -96,6 +96,7 @@
         .post img { 
             width: 100%; border-radius: calc(var(--radius) - 8px); 
             margin-bottom: 15px; display: block; object-fit: cover; max-height: 300px;
+            background: var(--soft);
         }
 
         .ai-badge {
@@ -223,14 +224,18 @@
 </main>
 
 <script>
-    // --- ИНИЦИАЛИЗАЦИЯ БАЗЫ ДАННЫХ (LOCAL STORAGE) ---
+    // --- ИНИЦИАЛИЗАЦИЯ БАЗЫ ДАННЫХ ---
     let db = JSON.parse(localStorage.getItem('archeo_ai_database')) || [];
     let rating = parseInt(localStorage.getItem('archeo_ai_rating')) || 0;
 
     function syncDB() {
-        localStorage.setItem('archeo_ai_database', JSON.stringify(db));
-        localStorage.setItem('archeo_ai_rating', rating.toString());
-        updateStats();
+        try {
+            localStorage.setItem('archeo_ai_database', JSON.stringify(db));
+            localStorage.setItem('archeo_ai_rating', rating.toString());
+            updateStats();
+        } catch (e) {
+            alert("Ошибка сохранения: база данных переполнена. Попробуйте загрузить фото меньшего размера или очистите базу.");
+        }
     }
 
     // --- ЛОГИКА ИНТЕРФЕЙСА ---
@@ -240,6 +245,7 @@
             link.classList.add('active');
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(link.dataset.tab).classList.add('active');
+            if(link.dataset.tab === 'feed') renderFeed();
         };
     });
 
@@ -249,7 +255,7 @@
         localStorage.setItem('ui_' + prop, val);
     }
 
-    // --- ЗАГРУЗКА ПОСТА ---
+    // --- ЗАГРУЗКА И СЖАТИЕ ФОТО ---
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.createElement('input'); 
     fileInput.type = 'file'; fileInput.accept = 'image/*';
@@ -259,11 +265,35 @@
     dropZone.onclick = () => fileInput.click();
     fileInput.onchange = (e) => {
         const file = e.target.files[0];
+        if (!file) return;
+
         const reader = new FileReader();
         reader.onload = (event) => {
-            uploadedImgBase64 = event.target.result;
-            document.getElementById('previewContainer').innerHTML = `<img src="${uploadedImgBase64}" style="width:100%; border-radius:15px; margin-top:15px">`;
-            dropZone.style.display = 'none';
+            const img = new Image();
+            img.onload = () => {
+                // Движок сжатия
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 800; // Оптимально для ленты
+                let width = img.width;
+                let height = img.height;
+
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // Превращаем в легкий JPEG
+                uploadedImgBase64 = canvas.toDataURL('image/jpeg', 0.7); 
+                
+                document.getElementById('previewContainer').innerHTML = `<img src="${uploadedImgBase64}" style="width:100%; border-radius:15px; margin-top:15px; border:1px solid var(--accent)">`;
+                dropZone.style.display = 'none';
+            };
+            img.src = event.target.result;
         };
         reader.readAsDataURL(file);
     };
@@ -274,9 +304,9 @@
         const materials = ["Бронза", "Обожженная глина", "Базальт", "Слоновая кость", "Золотой сплав"];
         const post = {
             id: Date.now(),
-            user: "User_" + Math.floor(Math.random() * 999),
+            user: "Explorer_" + Math.floor(Math.random() * 999),
             category: document.getElementById('category').value,
-            text: document.getElementById('description').value,
+            text: document.getElementById('description').value || "Артефакт найден в ходе экспедиции.",
             image: uploadedImgBase64,
             ai: {
                 material: materials[Math.floor(Math.random() * materials.length)],
@@ -288,7 +318,6 @@
         rating += 15;
         syncDB();
         
-        // Сброс формы и переход в ленту
         resetForm();
         renderFeed();
         document.querySelector('[data-tab="feed"]').click();
@@ -299,11 +328,12 @@
         document.getElementById('previewContainer').innerHTML = "";
         document.getElementById('description').value = "";
         dropZone.style.display = 'block';
+        fileInput.value = "";
     }
 
     function renderFeed() {
         const container = document.getElementById('feedContainer');
-        container.innerHTML = db.length ? "" : "<p style='color:var(--muted); grid-column: 1/-1; text-align:center;'>База данных пуста. Станьте первым исследователем!</p>";
+        container.innerHTML = db.length ? "" : "<p style='color:var(--muted); grid-column: 1/-1; text-align:center; padding: 50px;'>База данных пуста. Загрузите свою первую находку!</p>";
         
         db.forEach(item => {
             container.innerHTML += `
@@ -312,7 +342,7 @@
                         <div class="avatar-sm"></div>
                         <div>
                             <div style="font-weight:600; font-size:13px">${item.user}</div>
-                            <div style="font-size:11px; color:var(--muted)">${item.category} • Только что</div>
+                            <div style="font-size:11px; color:var(--muted)">${item.category} • Найдено</div>
                         </div>
                     </div>
                     <img src="${item.image}">
@@ -332,9 +362,14 @@
     }
 
     function deleteDatabase() {
-        if(confirm("Вы действительно хотите удалить все данные из локальной базы?")) {
-            localStorage.clear();
-            location.reload();
+        if(confirm("Вы действительно хотите удалить все посты? Это действие нельзя отменить.")) {
+            localStorage.removeItem('archeo_ai_database');
+            localStorage.removeItem('archeo_ai_rating');
+            db = [];
+            rating = 0;
+            renderFeed();
+            updateStats();
+            alert("База очищена.");
         }
     }
 
