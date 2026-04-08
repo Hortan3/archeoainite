@@ -3,192 +3,339 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARCHEO AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<title>ARCHEO AI | Community</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#1c130c;--card:#2b1f14;--soft:#3a2a1b;--accent:#e6c27a;--text:#f6f2ea;--muted:#b9ad9a;}
-body.light{--bg:#f4efe6;--card:#ffffff;--soft:#e5dccf;--text:#2a1f15;--muted:#6a5a48;}
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter,sans-serif;background:var(--bg);color:var(--text);transition:.4s;}
-header{display:flex;align-items:center;gap:16px;padding:16px 20px;position:sticky;top:0;background:rgba(0,0,0,.45);backdrop-filter:blur(12px);z-index:10;}
-h1{font-family:Playfair Display,serif;color:var(--accent);font-size:22px;}
-nav a{margin-right:14px;cursor:pointer;color:var(--muted);}
-nav a.active{color:var(--accent);}
-.search{flex:1;}
-.search input{width:100%;padding:8px 12px;border-radius:10px;border:none;background:var(--soft);color:var(--text);}
-.page{display:none;animation:fade .5s ease;}
-.page.active{display:block;}
-@keyframes fade{from{opacity:0;transform:translateY(25px);}to{opacity:1}}
-.feed{max-width:1200px;margin:30px auto;columns:3;column-gap:20px;}
-.post{break-inside:avoid;background:var(--card);border-radius:18px;padding:14px;margin-bottom:20px;animation:pop .4s ease;box-shadow:0 2px 10px rgba(0,0,0,0.25);}
-@keyframes pop{from{opacity:0;transform:scale(.95);}to{opacity:1}}
-.post img{width:100%;border-radius:14px;}
-.post p{color:var(--muted);font-size:14px;margin:10px 0;}
-.ai-box{background:var(--soft);border-radius:12px;padding:10px;margin:8px 0;font-size:13px;display:flex;justify-content:space-between;align-items:center;}
-.like-box{display:flex;justify-content:space-between;align-items:center;margin-top:6px;}
-.like-box button{padding:6px 12px;border-radius:12px;border:none;background:var(--accent);color:#2a1f15;cursor:pointer;}
-.card{max-width:800px;margin:40px auto;background:var(--card);border-radius:22px;padding:28px;}
-textarea,input{width:100%;padding:12px;border-radius:12px;border:none;background:var(--soft);color:var(--text);}
-button{margin-top:16px;padding:12px;border-radius:14px;border:none;background:var(--accent);color:#2a1f15;font-weight:600;cursor:pointer;}
-.drop{border:2px dashed var(--accent);border-radius:18px;padding:40px;text-align:center;cursor:pointer;}
-.preview{margin-top:16px;}
-.preview img{width:100%;border-radius:16px;}
-.profile{display:grid;grid-template-columns:240px 1fr;gap:24px;}
-.avatar{width:120px;height:120px;border-radius:50%;background:var(--soft);margin-bottom:10px;}
-.stats{display:flex;gap:12px;margin-top:10px;}
-.stat{background:var(--soft);padding:10px;border-radius:12px;text-align:center;flex:1;}
-.opt{padding:10px 16px;border-radius:12px;background:var(--soft);cursor:pointer;}
-.opt.active{background:var(--accent);color:#2a1f15;}
-.row{display:flex;gap:12px;flex-wrap:wrap;}
-@media(max-width:900px){.feed{columns:2}}
-@media(max-width:600px){.feed{columns:1}.profile{grid-template-columns:1fr}}
+/* ПЕРЕМЕННЫЕ (Управляются через настройки) */
+:root {
+  --bg: #1E160F;
+  --card: #2D2218;
+  --soft: #3D2F23;
+  --text: #F6F2EA;
+  --muted: #A39684;
+  --border: #3D2F23;
+  --accent: #D4AF37;
+  --accent-soft: rgba(212, 175, 55, 0.15);
+  --radius: 20px;
+  --font-size: 14px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+
+body { 
+  font-family: 'Inter', sans-serif; 
+  font-size: var(--font-size);
+  background: var(--bg); 
+  color: var(--text); 
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ЛЕВЫЙ САЙДБАР (СТИЛЬ INST) */
+.sidebar {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: 260px;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 40px 20px;
+  z-index: 1000;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--accent);
+  margin-bottom: 40px;
+  padding-left: 15px;
+  letter-spacing: -1px;
+}
+
+nav { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+nav a {
+  display: flex; align-items: center; gap: 16px; padding: 12px 16px;
+  text-decoration: none; color: var(--muted); font-weight: 500;
+  border-radius: var(--radius); transition: 0.3s; cursor: pointer;
+}
+nav a svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; }
+nav a:hover { color: var(--text); background: var(--soft); }
+nav a.active {
+  background: var(--accent); color: #1E160F; font-weight: 700;
+}
+
+/* КОНТЕНТ */
+main { flex: 1; margin-left: 260px; padding: 40px; display: flex; justify-content: center; }
+.container { width: 100%; max-width: 800px; }
+
+.page { display: none; }
+.page.active { display: block; animation: pageIn 0.5s ease-out; }
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ЛЕНТА ПОСТОВ */
+.feed { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.post {
+  background: var(--card); border-radius: var(--radius); padding: 18px;
+  border: 1px solid var(--border); transition: 0.3s;
+}
+.post:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+.post-user { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--soft); }
+.user-info b { font-size: 13px; display: block; }
+.user-info span { font-size: 11px; color: var(--muted); }
+
+.post img { width: 100%; border-radius: calc(var(--radius) - 10px); margin-bottom: 12px; display: block; }
+.post-text { font-size: 14px; line-height: 1.5; margin-bottom: 15px; }
+
+.ai-box {
+  background: var(--soft); padding: 10px 14px; border-radius: 12px;
+  font-size: 11px; color: var(--accent); display: flex; justify-content: space-between;
+  border: 1px solid var(--accent-soft);
+}
+
+/* ФОРМА ЗАГРУЗКИ */
+.card-form { background: var(--card); border-radius: var(--radius); padding: 30px; border: 1px solid var(--border); }
+.upload-area {
+  border: 2px dashed var(--border); border-radius: var(--radius);
+  padding: 50px; text-align: center; color: var(--muted); cursor: pointer; transition: 0.3s;
+}
+.upload-area:hover { border-color: var(--accent); color: var(--accent); }
+
+input, select, textarea {
+  width: 100%; background: var(--soft); border: 1px solid var(--border);
+  color: var(--text); padding: 12px 16px; border-radius: 12px;
+  font-family: inherit; margin-top: 15px;
+}
+textarea { height: 100px; resize: none; }
+
+.btn-main {
+  background: var(--accent); color: #1E160F; border: none; width: 100%;
+  padding: 16px; border-radius: var(--radius); font-weight: 700;
+  margin-top: 20px; cursor: pointer; transition: 0.3s;
+}
+.btn-main:hover { opacity: 0.9; transform: scale(1.01); }
+
+/* НАСТРОЙКИ */
+.set-group { background: var(--card); border-radius: var(--radius); padding: 20px; margin-bottom: 15px; border: 1px solid var(--border); }
+.set-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+.set-row:last-child { margin-bottom: 0; }
+
+@media (max-width: 900px) {
+  .sidebar { width: 75px; padding: 20px 10px; align-items: center; }
+  .logo, nav a span { display: none; }
+  main { margin-left: 75px; padding: 15px; }
+  .feed { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<header>
-<h1>ARCHEO AI</h1>
-<nav>
-<a data-tab="feed" class="active" data-i="feed"></a>
-<a data-tab="upload" data-i="upload"></a>
-<a data-tab="profile" data-i="profile"></a>
-<a data-tab="settings" data-i="settings"></a>
-</nav>
-<div class="search">
-<input id="search" data-i-ph="search">
-</div>
-</header>
+<aside class="sidebar">
+  <div class="logo">ARCHEO AI</div>
+  <nav>
+    <a data-tab="feed" class="active">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span data-i="feed"></span>
+    </a>
+    <a data-tab="create">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      <span data-i="create"></span>
+    </a>
+    <a data-tab="profile">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span data-i="profile"></span>
+    </a>
+    <a data-tab="settings">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+      <span data-i="settings"></span>
+    </a>
+  </nav>
+</aside>
 
-<section id="feed" class="page active">
-<div class="feed" id="feedBox"></div>
-</section>
+<main>
+  <div class="container">
+    
+    <section id="feed" class="page active">
+      <div class="feed" id="mainFeed"></div>
+    </section>
 
-<section id="upload" class="page">
-<div class="card">
-<h2 data-i="add"></h2>
-<div class="drop" id="drop">Drop image here</div>
-<div class="preview" id="preview"></div>
-<textarea id="desc" data-i-ph="desc"></textarea>
-<button onclick="publish()" data-i="publish"></button>
-</div>
-</section>
+    <section id="create" class="page">
+      <div class="card-form">
+        <h2 style="margin-bottom: 25px; font-family: 'Playfair Display'" data-i="newPost"></h2>
+        <div id="dropZone" class="upload-area">
+          <span data-i="uploadText"></span>
+        </div>
+        <div id="previewArea"></div>
+        <select id="catSelect">
+          <option value="Ceramics">Ceramics</option>
+          <option value="Numismatics">Numismatics</option>
+          <option value="Architecture">Architecture</option>
+          <option value="Weaponry">Weaponry</option>
+        </select>
+        <textarea id="postText" data-i-ph="descText"></textarea>
+        <button class="btn-main" onclick="publishPost()" data-i="publishBtn"></button>
+      </div>
+    </section>
 
-<section id="profile" class="page">
-<div class="card profile">
-<div>
-<div class="avatar"></div>
-<h3 id="uName">Explorer</h3>
-<div class="stats">
-<div class="stat"><b id="uPosts">0</b><br><span data-i="finds"></span></div>
-<div class="stat"><b id="uRate">0</b><br><span data-i="rating"></span></div>
-</div>
-</div>
-<div id="myPosts"></div>
-</div>
-</section>
+    <section id="profile" class="page">
+      <div class="card-form" style="text-align: center;">
+        <div class="user-avatar" style="width: 100px; height: 100px; margin: 0 auto 20px; background: var(--soft); border: 2px solid var(--accent);"></div>
+        <h2 style="font-family: 'Playfair Display'">Chief_Archeo</h2>
+        <p style="color: var(--muted); margin: 10px 0 30px;">Professional Excavator</p>
+        <div style="display: flex; justify-content: center; gap: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
+          <div><b style="display: block; font-size: 20px;" id="countP">0</b> <span data-i="posts"></span></div>
+          <div><b style="display: block; font-size: 20px;" id="countR">0</b> <span data-i="rating"></span></div>
+        </div>
+      </div>
+    </section>
 
-<section id="settings" class="page">
-<div class="card">
-<h2 data-i="settings"></h2>
-<h4 data-i="lang"></h4>
-<div class="row" id="langs"></div>
-<h4 data-i="theme"></h4>
-<div class="row">
-<div class="opt" onclick="setTheme('dark')">Dark</div>
-<div class="opt" onclick="setTheme('light')">Light</div>
-</div>
-</div>
-</section>
+    <section id="settings" class="page">
+      <div class="set-group">
+        <h3 data-i="gen" style="color:var(--accent); margin-bottom:15px"></h3>
+        <div class="set-row">
+          <span data-i="lang"></span>
+          <select id="langChoice" onchange="setLang(this.value)" style="width:120px; margin:0">
+            <option value="ru">Русский</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+      <div class="set-group">
+        <h3 data-i="style" style="color:var(--accent); margin-bottom:15px"></h3>
+        <div class="set-row"><span>Accent</span><input type="color" value="#D4AF37" onchange="updateUI('accent', this.value)"></div>
+        <div class="set-row"><span>Background</span><input type="color" value="#1E160F" onchange="updateUI('bg', this.value)"></div>
+        <div class="set-row"><span>Softness</span><input type="range" min="0" max="40" value="20" oninput="updateUI('radius', this.value + 'px')"></div>
+      </div>
+    </section>
+
+  </div>
+</main>
 
 <script>
-let posts=[],rating=0,fileData=null;
+let posts = [], rating = 0, currentImg = null;
 
-/* LANGUAGES */
-const T={
-ru:{feed:"Лента",upload:"Добавить",profile:"Профиль",settings:"Настройки",add:"Добавить находку",publish:"Опубликовать",search:"Поиск",desc:"Описание",finds:"Находки",rating:"Рейтинг",lang:"Язык",theme:"Тема"},
-en:{feed:"Feed",upload:"Upload",profile:"Profile",settings:"Settings",add:"Add find",publish:"Publish",search:"Search",desc:"Description",finds:"Finds",rating:"Rating",lang:"Language",theme:"Theme"},
-zh:{feed:"发现",upload:"上传",profile:"个人",settings:"设置",add:"添加发现",publish:"发布",search:"搜索",desc:"描述",finds:"发现",rating:"评分",lang:"语言",theme:"主题"},
-kz:{feed:"Лента",upload:"Қосу",profile:"Профиль",settings:"Баптау",add:"Табыс қосу",publish:"Жариялау",search:"Іздеу",desc:"Сипаттама",finds:"Табыс",rating:"Рейтинг",lang:"Тіл",theme:"Тақырып"}
+const T = {
+  ru: {
+    feed: "Лента", create: "Создать", profile: "Профиль", settings: "Настройки",
+    newPost: "Поделиться находкой", uploadText: "Нажмите, чтобы выбрать фото",
+    descText: "Опишите находку, место или контекст...", publishBtn: "Опубликовать в ARCHEO AI",
+    posts: "Постов", rating: "Репутация", lang: "Язык", gen: "Общие", style: "Оформление",
+    aiScan: "AI Анализ"
+  },
+  en: {
+    feed: "Feed", create: "Create", profile: "Profile", settings: "Settings",
+    newPost: "Share Discovery", uploadText: "Click to select a photo",
+    descText: "Describe the artifact, site or context...", publishBtn: "Publish to ARCHEO AI",
+    posts: "Posts", rating: "Reputation", lang: "Language", gen: "General", style: "Interface",
+    aiScan: "AI Scan"
+  }
 };
-let lang=localStorage.lang||"ru";
-function applyLang(){
-document.querySelectorAll("[data-i]").forEach(e=>e.textContent=T[lang][e.dataset.i]);
-document.querySelectorAll("[data-i-ph]").forEach(e=>e.placeholder=T[lang][e.dataset.iPh]);
-}
-const langsBox=document.getElementById("langs");
-["ru","en","zh","kz"].forEach(l=>{
-  const b=document.createElement("div");
-  b.className="opt"+(l===lang?" active":"");
-  b.textContent=l.toUpperCase();
-  b.onclick=()=>{lang=l;localStorage.lang=l;applyLang();langsBox.querySelectorAll(".opt").forEach(x=>x.classList.remove("active"));b.classList.add("active");};
-  langsBox.appendChild(b);
-});
 
-/* NAVIGATION */
-document.querySelectorAll("nav a").forEach(a=>{
-  a.onclick=()=>{document.querySelectorAll("nav a").forEach(x=>x.classList.remove("active"));a.classList.add("active");document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(a.dataset.tab).classList.add("active");}
-});
+let currentLang = localStorage.getItem('archeo_lang') || 'ru';
 
-/* UPLOAD */
-const drop=document.getElementById("drop");
-drop.onclick=()=>file.click();
-const file=document.createElement("input");
-file.type="file";
-file.onchange=e=>{fileData=URL.createObjectURL(e.target.files[0]);preview.innerHTML=`<img src="${fileData}">`;};
-
-/* AI ANALYSIS DEMO */
-function aiAnalyse(){
-  const mats=["Clay","Stone","Bronze","Iron"];
-  const eras=["Neolithic","Bronze Age","Iron Age","Medieval"];
-  return {material:mats[Math.random()*mats.length|0],era:eras[Math.random()*eras.length|0],confidence:Math.floor(80+Math.random()*20)};
+function setLang(l) {
+  currentLang = l;
+  localStorage.setItem('archeo_lang', l);
+  applyLang();
 }
 
-/* PUBLISH POST */
-function publish(){
-  if(!fileData) return alert("Image required");
-  const ai=aiAnalyse();
-  const post={img:fileData,text:desc.value,ai,likes:0};
-  posts.unshift(post);
-  rating+=10;
+function applyLang() {
+  document.querySelectorAll("[data-i]").forEach(el => el.textContent = T[currentLang][el.dataset.i]);
+  document.querySelectorAll("[data-i-ph]").forEach(el => el.placeholder = T[currentLang][el.dataset.iPh]);
+  document.getElementById('langChoice').value = currentLang;
   renderFeed();
-  renderProfile();
-  desc.value=""; preview.innerHTML=""; fileData=null;
 }
 
-/* RENDER FEED */
-function renderFeed(){
-  feedBox.innerHTML="";
-  posts.forEach((p,i)=>{
-    feedBox.innerHTML+=`
-    <div class="post">
-      <img src="${p.img}">
-      <p>${p.text}</p>
-      <div class="ai-box">
-        <div>AI: ${p.ai.material}, ${p.ai.era}</div>
-        <div>Confidence: ${p.ai.confidence}%</div>
+function updateUI(prop, val) {
+  document.documentElement.style.setProperty('--' + prop, val);
+  if (prop === 'accent') document.documentElement.style.setProperty('--accent-soft', val + '26');
+}
+
+/* НАВИГАЦИЯ */
+document.querySelectorAll('nav a').forEach(a => {
+  a.onclick = () => {
+    document.querySelectorAll('nav a').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(a.dataset.tab).classList.add('active');
+  };
+});
+
+/* ЗАГРУЗКА ФОТО */
+const drop = document.getElementById('dropZone');
+const input = document.createElement('input'); input.type = 'file';
+drop.onclick = () => input.click();
+input.onchange = (e) => {
+  const file = e.target.files[0];
+  if(file) {
+    currentImg = URL.createObjectURL(file);
+    document.getElementById('previewArea').innerHTML = `<img src="${currentImg}" style="width:100%; border-radius:15px; margin-top:15px">`;
+    drop.style.display = 'none';
+  }
+};
+
+/* ПУБЛИКАЦИЯ */
+function publishPost() {
+  if(!currentImg) return;
+  
+  const materials = ["Bronze", "Clay", "Gold", "Basalt", "Ivory"];
+  const aiData = {
+    material: materials[Math.floor(Math.random() * materials.length)],
+    conf: Math.floor(89 + Math.random() * 10)
+  };
+
+  const newPost = {
+    user: "Archeo_User_" + Math.floor(Math.random() * 999),
+    cat: document.getElementById('catSelect').value,
+    img: currentImg,
+    text: document.getElementById('postText').value,
+    ai: aiData
+  };
+
+  posts.unshift(newPost);
+  rating += 25;
+  renderFeed();
+  
+  // Сброс и переход
+  currentImg = null;
+  document.getElementById('previewArea').innerHTML = "";
+  document.getElementById('postText').value = "";
+  drop.style.display = 'block';
+  document.querySelector('[data-tab="feed"]').click();
+}
+
+function renderFeed() {
+  const box = document.getElementById('mainFeed');
+  box.innerHTML = "";
+  posts.forEach(p => {
+    box.innerHTML += `
+      <div class="post">
+        <div class="post-user">
+          <div class="user-avatar"></div>
+          <div class="user-info">
+            <b>${p.user}</b>
+            <span>${p.cat} • Just now</span>
+          </div>
+        </div>
+        <img src="${p.img}">
+        <div class="post-text">${p.text}</div>
+        <div class="ai-box">
+          <span><b>AI:</b> ${p.ai.material}</span>
+          <span>${T[currentLang].aiScan}: ${p.ai.conf}%</span>
+        </div>
       </div>
-      <div class="like-box">
-        <div>Rating: ${p.likes}</div>
-        <button onclick="likePost(${i})">Like</button>
-      </div>
-    </div>`;
+    `;
   });
+  document.getElementById('countP').textContent = posts.length;
+  document.getElementById('countR').textContent = rating;
 }
 
-/* LIKE POST */
-function likePost(i){posts[i].likes++; rating++; renderFeed(); renderProfile();}
-
-/* PROFILE */
-function renderProfile(){
-  uPosts.textContent=posts.length;
-  uRate.textContent=rating;
-  myPosts.innerHTML="";
-  posts.forEach(p=>{myPosts.innerHTML+=`<div class="post"><img src="${p.img}"><p>${p.text}</p></div>`;});
-}
-
-/* THEME */
-function setTheme(t){document.body.className=t==="light"?"light":"";localStorage.theme=t;}
-if(localStorage.theme==="light")setTheme("light");
 applyLang();
 </script>
 </body>
